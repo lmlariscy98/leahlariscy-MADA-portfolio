@@ -1,0 +1,79 @@
+[
+  {
+    "objectID": "tidytuesday_exercise.html",
+    "href": "tidytuesday_exercise.html",
+    "title": "Tidy Tuesday Exercise",
+    "section": "",
+    "text": "Placeholder file for the future Tidy Tuesday exercise."
+  },
+  {
+    "objectID": "aboutme.html",
+    "href": "aboutme.html",
+    "title": "About me",
+    "section": "",
+    "text": "My name is Leah Lariscy and I have a BS in Environmental Health and am now a first year PhD student in Environmental Health. My advisors are Travis Glenn and Erin Lipp and my research involves molecular detection in wastewater, mainly viral pathogens such as SARS-CoV-2, Mpox, and RSV. I also have some experience in many microbiology techniques, as well as some bioinformatics."
+  },
+  {
+    "objectID": "aboutme.html#experience",
+    "href": "aboutme.html#experience",
+    "title": "About me",
+    "section": "Experience",
+    "text": "Experience\nI first began working with R studio at the beginning of 2022, although I was mostly just trying to learn from other grad students and self-teach. In the Fall of 2022 I started my graduate career by taking EPID 7500, an intro to coding in R course, which allowed me to get familiar with R studio and get comfortable doing simple analysis. I also started running the wastewater surveillance script for the Lipp Lab’s COVID-19 surveillance website in the Fall. This involved raw data from qPCR outputs which I used to estimate copies per liter of SARS-CoV-2 viral particles in Athens-Clarke County wastewater influent."
+  },
+  {
+    "objectID": "aboutme.html#my-goals-for-the-class",
+    "href": "aboutme.html#my-goals-for-the-class",
+    "title": "About me",
+    "section": "My goals for the class",
+    "text": "My goals for the class\nI have been looking forward to taking this class for a while now as I’ve heard so many great things! My hope is that this class will give me more tools to become a better researcher, such as creating reproducible workflows and doing more complicated statistical analysis on my own data."
+  },
+  {
+    "objectID": "aboutme.html#a-picture-of-me",
+    "href": "aboutme.html#a-picture-of-me",
+    "title": "About me",
+    "section": "A picture of me!",
+    "text": "A picture of me!"
+  },
+  {
+    "objectID": "aboutme.html#lipp-lab-covid-19-surveillance-website",
+    "href": "aboutme.html#lipp-lab-covid-19-surveillance-website",
+    "title": "About me",
+    "section": "Lipp Lab COVID-19 Surveillance Website",
+    "text": "Lipp Lab COVID-19 Surveillance Website\nCOVID-19 Dashboard\nHere is the surveillance site that I described above, which shows you a graph of wastewater viral levels compared to clinical cases of COVID-19 from July 2020 to December 2022. Since I only have experience working on the data analysis side of this, I am also interested in learning to create websites similar to this for my continued detection work with other pathogens."
+  },
+  {
+    "objectID": "visualization_exercise.html",
+    "href": "visualization_exercise.html",
+    "title": "Visualization Exercise",
+    "section": "",
+    "text": "Placeholder file for the future visualization exercise."
+  },
+  {
+    "objectID": "coding_exercise.html",
+    "href": "coding_exercise.html",
+    "title": "R Coding Exercise",
+    "section": "",
+    "text": "Placeholder file for the future R coding exercise."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My website and data analysis portfolio",
+    "section": "",
+    "text": "Hello\n\nAnd hello again\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
+  },
+  {
+    "objectID": "hello.html",
+    "href": "hello.html",
+    "title": "Penguins, meet Quarto!",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "hello.html#meet-the-penguins",
+    "href": "hello.html#meet-the-penguins",
+    "title": "Penguins, meet Quarto!",
+    "section": "Meet the penguins",
+    "text": "Meet the penguins\n\nThe penguins data from the palmerpenguins package contains size measurements for 344 penguins from three species observed on three islands in the Palmer Archipelago, Antarctica.\nThe plot below shows the relationship between flipper and bill lengths of these penguins."
+  }
+]

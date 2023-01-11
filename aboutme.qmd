@@ -5,4 +5,24 @@ output:
       toc: FALSE
 ---
 
-Add some text and a figure describing myself.
+## Background
+
+My name is Leah Lariscy and I have a BS in Environmental Health and am now a first year PhD student in Environmental Health. My advisors are Travis Glenn and Erin Lipp and my research involves molecular detection in wastewater, mainly viral pathogens such as SARS-CoV-2, Mpox, and RSV. I also have some experience in many microbiology techniques, as well as some bioinformatics.
+
+## Experience
+
+I first began working with R studio at the beginning of 2022, although I was mostly just trying to learn from other grad students and self-teach. In the Fall of 2022 I started my graduate career by taking EPID 7500, an intro to coding in R course, which allowed me to get familiar with R studio and get comfortable doing simple analysis. I also started running the wastewater surveillance script for the Lipp Lab's COVID-19 surveillance website in the Fall. This involved raw data from qPCR outputs which I used to estimate copies per liter of SARS-CoV-2 viral particles in Athens-Clarke County wastewater influent.
+
+## My goals for the class
+
+I have been looking forward to taking this class for a while now as I've heard so many great things! My hope is that this class will give me more tools to become a better researcher, such as creating reproducible workflows and doing more complicated statistical analysis on my own data.
+
+## A picture of me!
+
+![](images/fall2022headshot.JPEG){width="461"}
+
+## Lipp Lab COVID-19 Surveillance Website
+
+[COVID-19 Dashboard](https://www.covid19.uga.edu/wastewater-athens.html)
+
+Here is the surveillance site that I described above, which shows you a graph of wastewater viral levels compared to clinical cases of COVID-19 from July 2020 to December 2022. Since I only have experience working on the data analysis side of this, I am also interested in learning to create websites similar to this for my continued detection work with other pathogens.
