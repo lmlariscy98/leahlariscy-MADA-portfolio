@@ -1,2 +1,2 @@
 # My website and data analysis portfolio
-https://github.com/lmlariscy98/leahlariscy-MADA-portfolio 
+https://lmlariscy98.github.io/leahlariscy-MADA-portfolio 
