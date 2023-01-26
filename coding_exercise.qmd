@@ -4,5 +4,124 @@ output:
   html_document:
     toc: FALSE
 ---
+Load required packages and data here
+```{r}
+#load the dslabs package
+#install.packages("dslabs")
+library(dslabs)
+library(tidyverse)
+```
+```{r}
+#look at help page for gapminder data
+help("gapminder")
+```
+```{r}
+#look at the structure of the data
+str(gapminder)
+```
+```{r}
+#look at a summary of the data
+summary(gapminder)
+```
+```{r}
+#check what type of object the data is
+class(gapminder)
+```
 
-Placeholder file for the future R coding exercise.
+Subset the data, only keeping data from Africa
+```{r}
+#subset the data so there is only data from the African continent in a new data frame
+africadata <- gapminder %>% filter(continent == "Africa")
+```
+```{r}
+#look at the structure of the data
+str(africadata)
+```
+```{r}
+#look at a summary of the data
+summary(africadata)
+```
+
+```{r}
+#further subset the African data by creating a data frame with only infant_mortality and Life_expectancy
+africadata2 <- africadata %>% select(c(infant_mortality, life_expectancy))
+```
+```{r}
+#look at the structure of the data
+str(africadata2)
+```
+```{r}
+#look at a summary of the data
+summary(africadata2)
+```
+
+```{r}
+#subset the African data again, but this time including only population and life_expectancy
+africadata3 <- africadata %>% select(c(population, life_expectancy))
+```
+```{r}
+#look at the structure of the data
+str(africadata3)
+```
+```{r}
+#look at a summary of the data
+summary(africadata3)
+```
+
+Plot the data here
+```{r}
+#Plot life expectancy as a function of infant mortality
+ggplot(data = africadata2) +
+  geom_point(aes(x = infant_mortality, y = life_expectancy))
+```
+```{r}
+#Plot life expectancy as a function of log10(population)
+ggplot(data = africadata3) +
+  geom_point(aes(x = log10(population), y = life_expectancy))
+
+```
+
+```{r}
+#Find which years have missing data for infant_mortality
+africa_NAs <- africadata %>% select(c(country, year, infant_mortality)) %>% 
+  filter(is.na(infant_mortality))
+summary(africa_NAs)
+```
+
+```{r}
+#Subset the African data to only include data from the year 2000
+africadata2000 <- africadata %>% filter(year == 2000)
+```
+```{r}
+#look at the structure of the data
+str(africadata2000)
+```
+```{r}
+#look at a summary of the data
+summary(africadata2000)
+```
+
+```{r}
+#Plot life expectancy as a function of infant mortality
+ggplot(data = africadata2000) +
+  geom_point(aes(x = infant_mortality, y = life_expectancy))
+```
+```{r}
+#Plot life expectancy as a function of log10(population)
+ggplot(data = africadata2000) +
+  geom_point(aes(x = log10(population), y = life_expectancy))
+```
+
+```{r}
+#Use a linear model, fit life expectancy as the outcome and infant mortality as the predictor
+#p-value is very small, infant mortality is very likely to predict life expectancy
+fit1 <- lm(infant_mortality ~ life_expectancy, data = africadata2000)
+summary(fit1)
+```
+```{r}
+#Use a linear model, fit life expectancy as the outcome and population as the predictor
+#p-value is large, population size is unlikley to predict life expectancy
+fit2 <- lm(population ~ life_expectancy, data = africadata2000)
+summary(fit2)
+```
+
