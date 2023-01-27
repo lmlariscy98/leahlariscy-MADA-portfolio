@@ -125,3 +125,58 @@ fit2 <- lm(population ~ life_expectancy, data = africadata2000)
 summary(fit2)
 ```
 
+
+## This section added by Sara Benist
+
+###Load the packages
+```{r}
+library(dslabs)
+library(tidyverse)
+library(dplyr)
+library(broom)
+```
+
+### Subsetting data
+
+I want to continue to explore the data related to African countries, specifically how gdp and infant mortality relates to fertility. 
+```{r}
+#subset African countries
+africadata <- filter(gapminder, continent == "Africa")
+
+#select only the `gdp` and `fertility` columns and assign to `gdpfert`
+gdpfert <- africadata %>% select(gdp, fertility)
+
+#select only the `fertility` and `infant_mortality` columns and assign to `fertmort`
+fertmort <- africadata %>% select(fertility, infant_mortality)
+```
+
+### Plotting the data
+
+Next, I wanted to look at the plots for the two new datasets. For both `gdpfert` and `fertmort`, I plotted the data points using geom_point() and geom_smooth() to produce a scatter plot with a smoothed line over the data. The smoothed line helps visualize patterns in the plot.
+```{r}
+#produce scatter plot with smooth line; x = gdp, y = fertility
+#x-axis log transformed for gdp data
+ggplot(gdpfert, aes(gdp, fertility))+
+  geom_point() + 
+  geom_smooth()+
+  scale_x_continuous(trans = "log")
+```
+We can see a distinct negative correlation with fertility after the GDP of a country reaches above approx. 9.7 billion dollars. Note that most African countries have a GDP between 485 million and $9.7 billion dollars where the line fluctuates around 6 children per woman. 
+
+```{r}
+#produce scatter plot with smooth line; x = fertility, y = infant_mortality
+ggplot(fertmort, aes(fertility, infant_mortality)) +
+  geom_point()+
+  geom_smooth()
+```
+Here, fertility and infant mortality are positively correlated until approximately 7 children per woman or 125 infants deaths per 1000. 
+
+### Linear modeling
+
+I would like to consider a linear model predicting fertility from GDP and infant mortality for African countries. The glm() function will be used to create a linear model for this scenario. The tidy() function from the broom package produces the summary of the model.
+```{r}
+fit3 <- glm(fertility ~ gdp + infant_mortality, data = africadata)
+
+tidy(fit3)
+```
+Both GDP and infant mortality has a statistically significant affect on fertility (p-values > 0.001). GDP has an extremely small negative effect on fertility (slope = -1.411e-11), and infant mortality has a small positive effect (slope = 2.176e-2). 
