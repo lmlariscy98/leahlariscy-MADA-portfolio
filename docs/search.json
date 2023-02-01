@@ -56,32 +56,18 @@
     "text": "Load required packages and data here\nSubset the data, only keeping data from Africa\nPlot the data here"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Leah Lariscy’s website and data analysis portfolio",
-    "section": "",
-    "text": "Hello!\n\nThis is my website!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
-  },
-  {
-    "objectID": "hello.html",
-    "href": "hello.html",
-    "title": "Penguins, meet Quarto!",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "hello.html#meet-the-penguins",
-    "href": "hello.html#meet-the-penguins",
-    "title": "Penguins, meet Quarto!",
-    "section": "Meet the penguins",
-    "text": "Meet the penguins\n\nThe penguins data from the palmerpenguins package contains size measurements for 344 penguins from three species observed on three islands in the Palmer Archipelago, Antarctica.\nThe plot below shows the relationship between flipper and bill lengths of these penguins."
-  },
-  {
     "objectID": "coding_exercise.html#this-section-added-by-sara-benist",
     "href": "coding_exercise.html#this-section-added-by-sara-benist",
     "title": "R Coding Exercise",
     "section": "This section added by Sara Benist",
     "text": "This section added by Sara Benist\n###Load the packages\n\nlibrary(dslabs)\nlibrary(tidyverse)\nlibrary(dplyr)\nlibrary(broom)\n\n\nSubsetting data\nI want to continue to explore the data related to African countries, specifically how gdp and infant mortality relates to fertility.\n\n#subset African countries\nafricadata <- filter(gapminder, continent == \"Africa\")\n\n#select only the `gdp` and `fertility` columns and assign to `gdpfert`\ngdpfert <- africadata %>% select(gdp, fertility)\n\n#select only the `fertility` and `infant_mortality` columns and assign to `fertmort`\nfertmort <- africadata %>% select(fertility, infant_mortality)\n\n\n\nPlotting the data\nNext, I wanted to look at the plots for the two new datasets. For both gdpfert and fertmort, I plotted the data points using geom_point() and geom_smooth() to produce a scatter plot with a smoothed line over the data. The smoothed line helps visualize patterns in the plot.\n\n#produce scatter plot with smooth line; x = gdp, y = fertility\n#x-axis log transformed for gdp data\nggplot(gdpfert, aes(gdp, fertility))+\n  geom_point() + \n  geom_smooth()+\n  scale_x_continuous(trans = \"log\")\n\n`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = \"cs\")'\n\n\nWarning: Removed 637 rows containing non-finite values (`stat_smooth()`).\n\n\nWarning: Removed 637 rows containing missing values (`geom_point()`).\n\n\n\n\n\nWe can see a distinct negative correlation with fertility after the GDP of a country reaches above approx. 9.7 billion dollars. Note that most African countries have a GDP between 485 million and $9.7 billion dollars where the line fluctuates around 6 children per woman.\n\n#produce scatter plot with smooth line; x = fertility, y = infant_mortality\nggplot(fertmort, aes(fertility, infant_mortality)) +\n  geom_point()+\n  geom_smooth()\n\n`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = \"cs\")'\n\n\nWarning: Removed 226 rows containing non-finite values (`stat_smooth()`).\n\n\nWarning: Removed 226 rows containing missing values (`geom_point()`).\n\n\n\n\n\nHere, fertility and infant mortality are positively correlated until approximately 7 children per woman or 125 infants deaths per 1000.\n\n\nLinear modeling\nI would like to consider a linear model predicting fertility from GDP and infant mortality for African countries. The glm() function will be used to create a linear model for this scenario. The tidy() function from the broom package produces the summary of the model.\n\nfit3 <- glm(fertility ~ gdp + infant_mortality, data = africadata)\n\ntidy(fit3)\n\n# A tibble: 3 × 5\n  term              estimate std.error statistic   p.value\n  <chr>                <dbl>     <dbl>     <dbl>     <dbl>\n1 (Intercept)       3.91e+ 0  5.49e- 2      71.2 0        \n2 gdp              -1.41e-11  9.62e-13     -14.7 1.45e- 46\n3 infant_mortality  2.18e- 2  4.99e- 4      43.6 4.58e-300\n\n\nBoth GDP and infant mortality has a statistically significant affect on fertility (p-values > 0.001). GDP has an extremely small negative effect on fertility (slope = -1.411e-11), and infant mortality has a small positive effect (slope = 2.176e-2)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Leah Lariscy’s website and data analysis portfolio",
+    "section": "",
+    "text": "Hello!\n\nThis is my website!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
   },
   {
     "objectID": "data_analysis_exercise.html",
@@ -124,5 +110,19 @@
     "title": "Data Analysis Exercise",
     "section": "Exploratory analysis",
     "text": "Exploratory analysis\nI would be interested in grouping by pathogen and exploring trends across states. I’d also like to see which pathogens are more likely to be associated with outbreaks."
+  },
+  {
+    "objectID": "hello.html",
+    "href": "hello.html",
+    "title": "Penguins, meet Quarto!",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "hello.html#meet-the-penguins",
+    "href": "hello.html#meet-the-penguins",
+    "title": "Penguins, meet Quarto!",
+    "section": "Meet the penguins",
+    "text": "Meet the penguins\n\nThe penguins data from the palmerpenguins package contains size measurements for 344 penguins from three species observed on three islands in the Palmer Archipelago, Antarctica.\nThe plot below shows the relationship between flipper and bill lengths of these penguins."
   }
 ]
