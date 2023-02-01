@@ -1,0 +1,27 @@
+---
+title: "Data Analysis Exercise"
+author: "Leah Lariscy"
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+## Data description 
+
+Data was accessed from the Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard, which houses data collected by the System for Enteric Disease Response, Investigation, and Coordination (SEDRIC).
+
+```{r}
+beam_raw <- read_csv("data/raw_data/BEAM_Dashboard_Report_Data.csv")
+```
+
+## Data cleaning 
+
+Begin by combining the `Year` and `Month` variables into one variable `Date`, then select for variables of interest and rename them.
+
+```{r}
+beam_clean <- beam_raw %>% mutate(date = make_date(year = Year, month = Month, day = 1)) %>% select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`, num_isolates=Number_of_isolates))
+print(beam_raw)
+```
