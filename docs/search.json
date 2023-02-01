@@ -95,13 +95,34 @@
     "href": "data_analysis_exercise.html#data-description",
     "title": "Data Analysis Exercise",
     "section": "Data description",
-    "text": "Data description\nData was accessed from the Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard, which houses data collected by the System for Enteric Disease Response, Investigation, and Coordination (SEDRIC).\n\nbeam_raw <- read_csv(\"data/raw_data/BEAM_Dashboard_Report_Data.csv\")\n\nRows: 128342 Columns: 10\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): State, Source, Pathogen, Serotype/Species\ndbl (6): Year, Month, Number_of_isolates, Outbreak_associated_isolates, New_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "text": "Data description\nThis dataset was accessed from the Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard, which houses data collected by the System for Enteric Disease Response, Investigation, and Coordination (SEDRIC). The data points represent pathogens isolated from infected individuals, namely Salmonella, E. Coli, Shigella, and Campylobacter bacteria.\nYou can access the BEAM Dashboard here.\n\nbeam_raw <- read_csv(\"data_analysis_exercise/data/raw_data/BEAM_Dashboard_Report_Data.csv\")\n\nRows: 128342 Columns: 10\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): State, Source, Pathogen, Serotype/Species\ndbl (6): Year, Month, Number_of_isolates, Outbreak_associated_isolates, New_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
     "objectID": "data_analysis_exercise.html#data-cleaning",
     "href": "data_analysis_exercise.html#data-cleaning",
     "title": "Data Analysis Exercise",
     "section": "Data cleaning",
-    "text": "Data cleaning\nBegin by combining the Year and Month variables into one variable Date, then select for variables of interest and rename them.\n\nbeam_raw <- beam_raw %>% mutate(date = make_date(year = Year, month = Month, day = 1)) %>% select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`, num_isolates=Number_of_isolates))\nprint(beam_raw)\n\n# A tibble: 128,342 × 6\n   date       state source pathogen    species                           num_i…¹\n   <date>     <chr> <chr>  <chr>       <chr>                               <dbl>\n 1 2017-09-01 TX    Stool  Escherichia Shigella Flexneri Serotype Undet…       1\n 2 2017-09-01 TX    Stool  Escherichia sonnei                                 14\n 3 2017-09-01 TX    Stool  Salmonella  Agbeni                                  1\n 4 2017-09-01 TX    Stool  Salmonella  Agona                                   5\n 5 2017-09-01 TX    Stool  Salmonella  Altona                                  1\n 6 2017-09-01 TX    Stool  Salmonella  Anatum                                  2\n 7 2017-09-01 TX    Stool  Salmonella  Anatum, Newington, Minneapolis          2\n 8 2017-09-01 TX    Stool  Salmonella  Baildon                                 1\n 9 2017-09-01 TX    Stool  Salmonella  Bareilly                                2\n10 2017-09-01 TX    Stool  Salmonella  Berta                                   2\n# … with 128,332 more rows, and abbreviated variable name ¹​num_isolates\n# ℹ Use `print(n = ...)` to see more rows"
+    "text": "Data cleaning\nBegin by combining the Year and Month variables into one Date variable, then select for variables of interest and rename them. Lastly, change all NAs to 0s where necessary.\n\nbeam_clean <- beam_raw %>% mutate(date = make_date(year=Year, month=Month, day=1)) %>% \n\n  select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`,\n       n_isolates=Number_of_isolates, n_outbreak_associated=Outbreak_associated_isolates)) %>% \n\n  mutate(n_isolates = ifelse(is.na(n_isolates), 0, n_isolates), \n       n_outbreak_associated = ifelse(is.na(n_outbreak_associated), 0, n_outbreak_associated))\n\nprint(beam_clean)\n\n# A tibble: 128,342 × 7\n   date       state source pathogen    species                   n_iso…¹ n_out…²\n   <date>     <chr> <chr>  <chr>       <chr>                       <dbl>   <dbl>\n 1 2017-09-01 TX    Stool  Escherichia Shigella Flexneri Seroty…       1       0\n 2 2017-09-01 TX    Stool  Escherichia sonnei                         14       0\n 3 2017-09-01 TX    Stool  Salmonella  Agbeni                          1       0\n 4 2017-09-01 TX    Stool  Salmonella  Agona                           5       0\n 5 2017-09-01 TX    Stool  Salmonella  Altona                          1       0\n 6 2017-09-01 TX    Stool  Salmonella  Anatum                          2       2\n 7 2017-09-01 TX    Stool  Salmonella  Anatum, Newington, Minne…       2       0\n 8 2017-09-01 TX    Stool  Salmonella  Baildon                         1       0\n 9 2017-09-01 TX    Stool  Salmonella  Bareilly                        2       0\n10 2017-09-01 TX    Stool  Salmonella  Berta                           2       0\n# … with 128,332 more rows, and abbreviated variable names ¹​n_isolates,\n#   ²​n_outbreak_associated\n# ℹ Use `print(n = ...)` to see more rows"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#save-cleaned-data-to-rds-file",
+    "href": "data_analysis_exercise.html#save-cleaned-data-to-rds-file",
+    "title": "Data Analysis Exercise",
+    "section": "Save cleaned data to RDS file",
+    "text": "Save cleaned data to RDS file\n\nsaveRDS(beam_clean, \"data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS\")"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#read-in-rds-file",
+    "href": "data_analysis_exercise.html#read-in-rds-file",
+    "title": "Data Analysis Exercise",
+    "section": "Read in RDS file",
+    "text": "Read in RDS file\n\n#read_rds(\"data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS\")"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#exploratory-analysis",
+    "href": "data_analysis_exercise.html#exploratory-analysis",
+    "title": "Data Analysis Exercise",
+    "section": "Exploratory analysis",
+    "text": "Exploratory analysis\nI would be interested in grouping by pathogen and exploring trends across states. I’d also like to see which pathogens are more likely to be associated with outbreaks."
   }
 ]

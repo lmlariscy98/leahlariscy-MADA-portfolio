@@ -4,24 +4,48 @@ author: "Leah Lariscy"
 editor: visual
 ---
 
+## Load libraries here
+
 ```{r}
 library(tidyverse)
 library(lubridate)
 ```
 
-## Data description 
+## Data description
 
-Data was accessed from the Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard, which houses data collected by the System for Enteric Disease Response, Investigation, and Coordination (SEDRIC).
+This dataset was accessed from the **Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard**, which houses data collected by the **System for Enteric Disease Response, Investigation, and Coordination (SEDRIC)**. The data points represent pathogens isolated from infected individuals, namely ***Salmonella***, ***E. Coli***, ***Shigella***, and ***Campylobacter*** bacteria.
 
-```{r}
-beam_raw <- read_csv("data/raw_data/BEAM_Dashboard_Report_Data.csv")
-```
-
-## Data cleaning 
-
-Begin by combining the `Year` and `Month` variables into one variable `Date`, then select for variables of interest and rename them.
+You can access the BEAM Dashboard [here](https://www.cdc.gov/ncezid/dfwed/beam-dashboard.html).
 
 ```{r}
-beam_clean <- beam_raw %>% mutate(date = make_date(year = Year, month = Month, day = 1)) %>% select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`, num_isolates=Number_of_isolates))
-print(beam_raw)
+beam_raw <- read_csv("data_analysis_exercise/data/raw_data/BEAM_Dashboard_Report_Data.csv")
 ```
+
+## Data cleaning
+
+Begin by combining the `Year` and `Month` variables into one `Date` variable, then select for variables of interest and rename them. Lastly, change all NAs to 0s where necessary.
+
+```{r}
+beam_clean <- beam_raw %>% mutate(date = make_date(year=Year, month=Month, day=1)) %>% 
+
+  select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`,
+       n_isolates=Number_of_isolates, n_outbreak_associated=Outbreak_associated_isolates)) %>% 
+
+  mutate(n_isolates = ifelse(is.na(n_isolates), 0, n_isolates), 
+       n_outbreak_associated = ifelse(is.na(n_outbreak_associated), 0, n_outbreak_associated))
+
+print(beam_clean)
+```
+
+## Save cleaned data to RDS file
+```{r}
+saveRDS(beam_clean, "data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS")
+```
+
+## Read in RDS file 
+```{r}
+#read_rds("data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS")
+```
+
+## Exploratory analysis
+I would be interested in grouping by pathogen and exploring trends across states. I'd also like to see which pathogens are more likely to be associated with outbreaks. 

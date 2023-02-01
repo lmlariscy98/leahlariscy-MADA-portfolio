@@ -214,6 +214,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<section id="load-libraries-here" class="level2">
+<h2 class="anchored" data-anchor-id="load-libraries-here">Load libraries here</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -236,11 +238,13 @@ The following objects are masked from 'package:base':
     date, intersect, setdiff, union</code></pre>
 </div>
 </div>
+</section>
 <section id="data-description" class="level2">
 <h2 class="anchored" data-anchor-id="data-description">Data description</h2>
-<p>Data was accessed from the Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard, which houses data collected by the System for Enteric Disease Response, Investigation, and Coordination (SEDRIC).</p>
+<p>This dataset was accessed from the <strong>Bacteria, Enterics, Amoeba, and Mycotics (BEAM) Dashboard</strong>, which houses data collected by the <strong>System for Enteric Disease Response, Investigation, and Coordination (SEDRIC)</strong>. The data points represent pathogens isolated from infected individuals, namely <strong><em>Salmonella</em></strong>, <strong><em>E. Coli</em></strong>, <strong><em>Shigella</em></strong>, and <strong><em>Campylobacter</em></strong> bacteria.</p>
+<p>You can access the BEAM Dashboard <a href="https://www.cdc.gov/ncezid/dfwed/beam-dashboard.html">here</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>beam_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/raw_data/BEAM_Dashboard_Report_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>beam_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data_analysis_exercise/data/raw_data/BEAM_Dashboard_Report_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 128342 Columns: 10
 ── Column specification ────────────────────────────────────────────────────────
@@ -255,28 +259,52 @@ dbl (6): Year, Month, Number_of_isolates, Outbreak_associated_isolates, New_...
 </section>
 <section id="data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning">Data cleaning</h2>
-<p>Begin by combining the <code>Year</code> and <code>Month</code> variables into one variable <code>Date</code>, then select for variables of interest and rename them.</p>
+<p>Begin by combining the <code>Year</code> and <code>Month</code> variables into one <code>Date</code> variable, then select for variables of interest and rename them. Lastly, change all NAs to 0s where necessary.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>beam_raw <span class="ot">&lt;-</span> beam_raw <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">make_date</span>(<span class="at">year =</span> Year, <span class="at">month =</span> Month, <span class="at">day =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(date, <span class="at">state=</span>State, <span class="at">source=</span>Source, <span class="at">pathogen=</span>Pathogen, <span class="at">species=</span><span class="st">`</span><span class="at">Serotype/Species</span><span class="st">`</span>, <span class="at">num_isolates=</span>Number_of_isolates))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(beam_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>beam_clean <span class="ot">&lt;-</span> beam_raw <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">make_date</span>(<span class="at">year=</span>Year, <span class="at">month=</span>Month, <span class="at">day=</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(date, <span class="at">state=</span>State, <span class="at">source=</span>Source, <span class="at">pathogen=</span>Pathogen, <span class="at">species=</span><span class="st">`</span><span class="at">Serotype/Species</span><span class="st">`</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">n_isolates=</span>Number_of_isolates, <span class="at">n_outbreak_associated=</span>Outbreak_associated_isolates)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_isolates =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(n_isolates), <span class="dv">0</span>, n_isolates), </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">n_outbreak_associated =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(n_outbreak_associated), <span class="dv">0</span>, n_outbreak_associated))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(beam_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 128,342 × 6
-   date       state source pathogen    species                           num_i…¹
-   &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;                               &lt;dbl&gt;
- 1 2017-09-01 TX    Stool  Escherichia Shigella Flexneri Serotype Undet…       1
- 2 2017-09-01 TX    Stool  Escherichia sonnei                                 14
- 3 2017-09-01 TX    Stool  Salmonella  Agbeni                                  1
- 4 2017-09-01 TX    Stool  Salmonella  Agona                                   5
- 5 2017-09-01 TX    Stool  Salmonella  Altona                                  1
- 6 2017-09-01 TX    Stool  Salmonella  Anatum                                  2
- 7 2017-09-01 TX    Stool  Salmonella  Anatum, Newington, Minneapolis          2
- 8 2017-09-01 TX    Stool  Salmonella  Baildon                                 1
- 9 2017-09-01 TX    Stool  Salmonella  Bareilly                                2
-10 2017-09-01 TX    Stool  Salmonella  Berta                                   2
-# … with 128,332 more rows, and abbreviated variable name ¹​num_isolates
+<pre><code># A tibble: 128,342 × 7
+   date       state source pathogen    species                   n_iso…¹ n_out…²
+   &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;                       &lt;dbl&gt;   &lt;dbl&gt;
+ 1 2017-09-01 TX    Stool  Escherichia Shigella Flexneri Seroty…       1       0
+ 2 2017-09-01 TX    Stool  Escherichia sonnei                         14       0
+ 3 2017-09-01 TX    Stool  Salmonella  Agbeni                          1       0
+ 4 2017-09-01 TX    Stool  Salmonella  Agona                           5       0
+ 5 2017-09-01 TX    Stool  Salmonella  Altona                          1       0
+ 6 2017-09-01 TX    Stool  Salmonella  Anatum                          2       2
+ 7 2017-09-01 TX    Stool  Salmonella  Anatum, Newington, Minne…       2       0
+ 8 2017-09-01 TX    Stool  Salmonella  Baildon                         1       0
+ 9 2017-09-01 TX    Stool  Salmonella  Bareilly                        2       0
+10 2017-09-01 TX    Stool  Salmonella  Berta                           2       0
+# … with 128,332 more rows, and abbreviated variable names ¹​n_isolates,
+#   ²​n_outbreak_associated
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
+</section>
+<section id="save-cleaned-data-to-rds-file" class="level2">
+<h2 class="anchored" data-anchor-id="save-cleaned-data-to-rds-file">Save cleaned data to RDS file</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(beam_clean, <span class="st">"data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="read-in-rds-file" class="level2">
+<h2 class="anchored" data-anchor-id="read-in-rds-file">Read in RDS file</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read_rds("data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exploratory-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
+<p>I would be interested in grouping by pathogen and exploring trends across states. I’d also like to see which pathogens are more likely to be associated with outbreaks.</p>
 
 
 </section>
