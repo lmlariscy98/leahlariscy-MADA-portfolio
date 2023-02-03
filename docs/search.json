@@ -74,7 +74,7 @@
     "href": "data_analysis_exercise.html",
     "title": "Data Analysis Exercise",
     "section": "",
-    "text": "library(tidyverse)\n\n── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.4.0     ✔ purrr   1.0.1\n✔ tibble  3.1.8     ✔ dplyr   1.0.9\n✔ tidyr   1.2.0     ✔ stringr 1.4.1\n✔ readr   2.1.2     ✔ forcats 0.5.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nlibrary(lubridate)\n\n\nAttaching package: 'lubridate'\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union"
+    "text": "library(tidyverse)\n\n── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.4.0      ✔ purrr   1.0.1 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.5.0 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nlibrary(lubridate)\n\nLoading required package: timechange\n\nAttaching package: 'lubridate'\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union"
   },
   {
     "objectID": "data_analysis_exercise.html#data-description",
@@ -88,7 +88,7 @@
     "href": "data_analysis_exercise.html#data-cleaning",
     "title": "Data Analysis Exercise",
     "section": "Data cleaning",
-    "text": "Data cleaning\nBegin by combining the Year and Month variables into one Date variable, then select for variables of interest and rename them. Lastly, change all NAs to 0s where necessary.\n\nbeam_clean <- beam_raw %>% mutate(date = make_date(year=Year, month=Month, day=1)) %>% \n\n  select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`,\n       n_isolates=Number_of_isolates, n_outbreak_associated=Outbreak_associated_isolates)) %>% \n\n  mutate(n_isolates = ifelse(is.na(n_isolates), 0, n_isolates), \n       n_outbreak_associated = ifelse(is.na(n_outbreak_associated), 0, n_outbreak_associated))\n\nprint(beam_clean)\n\n# A tibble: 128,342 × 7\n   date       state source pathogen    species                   n_iso…¹ n_out…²\n   <date>     <chr> <chr>  <chr>       <chr>                       <dbl>   <dbl>\n 1 2017-09-01 TX    Stool  Escherichia Shigella Flexneri Seroty…       1       0\n 2 2017-09-01 TX    Stool  Escherichia sonnei                         14       0\n 3 2017-09-01 TX    Stool  Salmonella  Agbeni                          1       0\n 4 2017-09-01 TX    Stool  Salmonella  Agona                           5       0\n 5 2017-09-01 TX    Stool  Salmonella  Altona                          1       0\n 6 2017-09-01 TX    Stool  Salmonella  Anatum                          2       2\n 7 2017-09-01 TX    Stool  Salmonella  Anatum, Newington, Minne…       2       0\n 8 2017-09-01 TX    Stool  Salmonella  Baildon                         1       0\n 9 2017-09-01 TX    Stool  Salmonella  Bareilly                        2       0\n10 2017-09-01 TX    Stool  Salmonella  Berta                           2       0\n# … with 128,332 more rows, and abbreviated variable names ¹​n_isolates,\n#   ²​n_outbreak_associated\n# ℹ Use `print(n = ...)` to see more rows"
+    "text": "Data cleaning\nBegin by combining the Year and Month variables into one Date variable, then select for variables of interest and rename them. Lastly, change all NAs to 0s where necessary.\n\nbeam_clean <- beam_raw %>% mutate(date = make_date(year=Year, month=Month, day=1)) %>% \n\n  select(c(date, state=State, source=Source, pathogen=Pathogen, species=`Serotype/Species`,\n       n_isolates=Number_of_isolates, n_outbreak_associated=Outbreak_associated_isolates)) %>% \n\n  mutate(n_isolates = ifelse(is.na(n_isolates), 0, n_isolates), \n       n_outbreak_associated = ifelse(is.na(n_outbreak_associated), 0, n_outbreak_associated))\n\nprint(beam_clean)\n\n# A tibble: 128,342 × 7\n   date       state source pathogen    species                   n_iso…¹ n_out…²\n   <date>     <chr> <chr>  <chr>       <chr>                       <dbl>   <dbl>\n 1 2017-09-01 TX    Stool  Escherichia Shigella Flexneri Seroty…       1       0\n 2 2017-09-01 TX    Stool  Escherichia sonnei                         14       0\n 3 2017-09-01 TX    Stool  Salmonella  Agbeni                          1       0\n 4 2017-09-01 TX    Stool  Salmonella  Agona                           5       0\n 5 2017-09-01 TX    Stool  Salmonella  Altona                          1       0\n 6 2017-09-01 TX    Stool  Salmonella  Anatum                          2       2\n 7 2017-09-01 TX    Stool  Salmonella  Anatum, Newington, Minne…       2       0\n 8 2017-09-01 TX    Stool  Salmonella  Baildon                         1       0\n 9 2017-09-01 TX    Stool  Salmonella  Bareilly                        2       0\n10 2017-09-01 TX    Stool  Salmonella  Berta                           2       0\n# … with 128,332 more rows, and abbreviated variable names ¹​n_isolates,\n#   ²​n_outbreak_associated"
   },
   {
     "objectID": "data_analysis_exercise.html#save-cleaned-data-to-rds-file",
@@ -124,5 +124,61 @@
     "title": "Penguins, meet Quarto!",
     "section": "Meet the penguins",
     "text": "Meet the penguins\n\nThe penguins data from the palmerpenguins package contains size measurements for 344 penguins from three species observed on three islands in the Palmer Archipelago, Antarctica.\nThe plot below shows the relationship between flipper and bill lengths of these penguins."
+  },
+  {
+    "objectID": "data_analysis_exercise.html#this-section-was-added-by-kimberly-perez",
+    "href": "data_analysis_exercise.html#this-section-was-added-by-kimberly-perez",
+    "title": "Data Analysis Exercise",
+    "section": "This section was added by Kimberly Perez",
+    "text": "This section was added by Kimberly Perez\n#Reading in RDS\nHere I will use the readRDS() function to load Leah’s cleaned BEAM data.\n\n#Utilize readRDS for this task\nnewbc<-readRDS(\"data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS\")"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#state-selection",
+    "href": "data_analysis_exercise.html#state-selection",
+    "title": "Data Analysis Exercise",
+    "section": "State selection",
+    "text": "State selection\nHere I will use the filter function to select seven states\n\nbc<- beam_clean %>%\n  filter(state == 'GA' | state == 'AZ' | state == 'CA'| state == 'ND' | state == 'NY'| state == 'OR' | state == 'KS')\n\n\nPathogen Source by State\n\nggplot(bc, aes(state, pathogen, colour = source)) + geom_count(show.legend=T) +\n  labs(y=\"Pathogen\", \n       x=\"State\", \n       title=\"Pathogen Source by State (2017-2022)\")"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#outbreak-by-state-and-pathogen",
+    "href": "data_analysis_exercise.html#outbreak-by-state-and-pathogen",
+    "title": "Data Analysis Exercise",
+    "section": "Outbreak by state and pathogen",
+    "text": "Outbreak by state and pathogen\n\ntheme_set(theme_bw())  \nbc1 <- ggplot(bc, aes(state, n_outbreak_associated)) + \n  labs(title=\"Pathogen Associated with Outbreak by State (2017-2022)\",\n      y= \"Number of Outbreaks\",\n      x= \"State\")\n\nbc1 + geom_jitter(aes(col=pathogen, size=n_outbreak_associated)) + \n  geom_smooth(aes(col=pathogen), method=\"lm\", se=F)\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#density-of-each-pathogen-over-time",
+    "href": "data_analysis_exercise.html#density-of-each-pathogen-over-time",
+    "title": "Data Analysis Exercise",
+    "section": "Density of each pathogen over time",
+    "text": "Density of each pathogen over time\nThis website seems to be a comprehensive resource for data visualization. I found the density plot and wanted to try my hand at recreating it. Below is my attempt.\n\nbcc <- ggplot(bc, aes(date))\nbcc + geom_density(aes(fill=factor(pathogen)), alpha=0.8) + \n    labs(title=\"Pathogen density from (2017-2022)\", \n         x=\"Year\",\n         y=\"Density\",\n         fill=\"Pathogen\") + ylim (0,0.001)"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#outbreak-by-state-and-pathogen-2017-2022",
+    "href": "data_analysis_exercise.html#outbreak-by-state-and-pathogen-2017-2022",
+    "title": "Data Analysis Exercise",
+    "section": "Outbreak by State and Pathogen (2017-2022)",
+    "text": "Outbreak by State and Pathogen (2017-2022)\n\ntheme_set(theme_bw())  \nbc1 <- ggplot(bc, aes(state, n_outbreak_associated)) + \n  labs(title=\"Pathogen Associated with Outbreak by State (2017-2022) by State\",\n      y= \"Number of Outbreaks\",\n      x= \"State\")\n\nbc1 + geom_jitter(aes(col=pathogen, size=n_outbreak_associated)) + \n  geom_smooth(aes(col=pathogen), method=\"lm\", se=F)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\nbc_1<- bc %>% \n  group_by(date, pathogen, state, n_outbreak_associated) %>% \n  mutate(count=n()) %>% \n  ungroup() %>%  \n  select(-c(n_isolates, species, source))\n\nbc_1 %>% ggplot() +geom_line(\n  aes(x = date,\n      y = n_outbreak_associated,\n      color = pathogen,\n      linetype = state)) +\n  theme_bw() +\n  labs(x = \"Year\",\n       y = \"Number of Outbreaks (Associated with Pathogen)\",\n       color= \"Pathogen\",\n       linetype=\"State\",\n       title = \"Pathogen Associated with an Outbreak by State (2017-2022)\") +\n  theme(plot.title = element_text(hjust = 0.6))\n\n\n\n\nSalmonella and Ecoli look to be the pathogens that are associated with the largest number of outbreaks among these four states.\n\nPathogen Source by State\nHave you ever wondered what laboratories isolate pathogens from? Let’s explore the possibilities below!\n\n#Plotting \nggplot(bc, aes(state, pathogen, colour = source)) + geom_count(show.legend=T) +\n  labs(y=\"Pathogen\", \n       x=\"State\", \n       title=\"Pathogen Source by State (2017-2022)\")\n\n\n\n\nFrom the visualization above, it looks like most labs are able to isolate pathogens from stool samples, however, there may be variation by state!"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#a-bit-more-data-wrangling",
+    "href": "data_analysis_exercise.html#a-bit-more-data-wrangling",
+    "title": "Data Analysis Exercise",
+    "section": "A bit more data wrangling",
+    "text": "A bit more data wrangling\nI will now select four states to analyze\n\n#Creating a new dataframe with four selected states\nbc<- newbc %>%\n  filter(state == 'GA'  | state == 'CA'| state == 'ND' | state == 'OR' )"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#potentially-helpful-resource",
+    "href": "data_analysis_exercise.html#potentially-helpful-resource",
+    "title": "Data Analysis Exercise",
+    "section": "Potentially helpful resource",
+    "text": "Potentially helpful resource\nThis website seems to be a helpful resource for data visualization. I found some interesting visualizations and hope to practice utilizing several.\n```"
+  },
+  {
+    "objectID": "data_analysis_exercise.html#visualizing-outbreak-by-state-and-pathogen-2017-2022-in-two-ways",
+    "href": "data_analysis_exercise.html#visualizing-outbreak-by-state-and-pathogen-2017-2022-in-two-ways",
+    "title": "Data Analysis Exercise",
+    "section": "Visualizing Outbreak by State and Pathogen (2017-2022) in two ways…",
+    "text": "Visualizing Outbreak by State and Pathogen (2017-2022) in two ways…\n\ntheme_set(theme_bw())  \n\n#Visualizing the data...\nbc1 <- ggplot(bc, aes(state, n_outbreak_associated)) + \n  labs(title=\"Pathogen Associated with Outbreak by State (2017-2022) by State\",\n      y= \"Number of Outbreaks\",\n      x= \"State\")\n\nbc1 + geom_jitter(aes(col=pathogen, size=n_outbreak_associated)) + \n  geom_smooth(aes(col=pathogen), method=\"lm\", se=F)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n#Another way to visualize the data...\nbc %>% \n  ggplot() +geom_line(\n  aes(x = date,\n      y = n_outbreak_associated,\n      color = pathogen,\n      linetype = state)) +\n  theme_bw() +\n  labs(x = \"Year\",\n       y = \"Number of Outbreaks (Associated with Pathogen)\",\n       color= \"Pathogen\",\n       linetype=\"State\",\n       title = \"Pathogen Associated with an Outbreak by State (2017-2022)\") +\n  theme(plot.title = element_text(hjust = 0.6))\n\n\n\n\nSalmonella and Ecoli look to be the pathogens that are associated with the largest number of outbreaks among these four states.\n\nPathogen Source by State\nHave you ever wondered what laboratories isolate pathogens from? Let’s explore the possibilities below!\n\n#Plotting \nggplot(bc, aes(state, pathogen, colour = source)) + geom_count(show.legend=T) +\n  labs(y=\"Pathogen\", \n       x=\"State\", \n       title=\"Pathogen Source by State (2017-2022)\")\n\n\n\n\nFrom the visualization above, it looks like most labs are able to isolate pathogens from stool samples, however, there may be variation by state!"
   }
 ]
