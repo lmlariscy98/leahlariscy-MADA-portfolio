@@ -38,14 +38,121 @@ print(beam_clean)
 ```
 
 ## Save cleaned data to RDS file
+
 ```{r}
 saveRDS(beam_clean, "data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS")
 ```
 
-## Read in RDS file 
+## Read in RDS file
+
 ```{r}
 #read_rds("data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS")
 ```
 
 ## Exploratory analysis
-I would be interested in grouping by pathogen and exploring trends across states. I'd also like to see which pathogens are more likely to be associated with outbreaks. 
+
+I would be interested in grouping by pathogen and exploring trends across states. I'd also like to see which pathogens are more likely to be associated with outbreaks.
+
+## This section was added by Kimberly Perez
+
+#Reading in RDS
+
+Here I will use the readRDS() function to load Leah's cleaned BEAM data.
+
+```{r}
+#Utilize readRDS for this task
+newbc<-readRDS("data_analysis_exercise/data/raw_data/BEAM_Report_clean.RDS")
+```
+
+## A bit more data wrangling
+
+I will now select four states to analyze
+
+```{r}
+#Creating a new dataframe with four selected states
+bc<- newbc %>%
+  filter(state == 'GA'  | state == 'CA'| state == 'ND' | state == 'OR' )
+```
+
+# Selecting and condensing data for visualization!
+
+Next, I will use the filter function to select four states, remove "n_isolate" and "species" columns, and find count information on each pathogen. I will then produce a visualization that will present case count information for each pathogen by state throughout 2017-2022. Hopefully, this will provide us with some basic trend information.
+
+```{r}
+#Creating a new dataframe, grouping variables, and removing n_isolates, source, n_outbreak_associated, and species columns 
+bc_path<- bc %>% 
+  group_by(date, pathogen, state) %>% 
+  mutate(count=n()) %>% 
+  ungroup() %>%  
+  select(-c(n_isolates, species, source, n_outbreak_associated))
+
+#Removing duplicates (by mean) and creating a new dataframe presenting case counts for each pathogen in each state by day (2017-2022)
+final_bcc<- bc_path %>% 
+  group_by(date,state,pathogen) %>% 
+  summarize_if(is.numeric, mean) %>% 
+  ungroup()
+
+#Graphing
+final_bcc %>% 
+  ggplot() +geom_line(
+  aes(x = date,
+      y = count,
+      color = pathogen,
+      linetype = state)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Case Count",
+       color= "Pathogen",
+       linetype="State",
+       title = "Pathogen trends from 2017-2022") +
+  theme(plot.title = element_text(hjust = 0.6))
+
+```
+
+From the graph rendered above, it seems as though ***Salmonella*** comprises the majority of reported cases for most states. 
+
+## Visualizing Outbreak by State and Pathogen (2017-2022) in two ways...
+```{r}
+theme_set(theme_bw())  
+
+#Visualizing the data...
+bc1 <- ggplot(bc, aes(state, n_outbreak_associated)) + 
+  labs(title="Pathogen Associated with Outbreak by State (2017-2022) by State",
+      y= "Number of Outbreaks",
+      x= "State")
+
+bc1 + geom_jitter(aes(col=pathogen, size=n_outbreak_associated)) + 
+  geom_smooth(aes(col=pathogen), method="lm", se=F)
+
+
+#Another way to visualize the data...
+bc %>% 
+  ggplot() +geom_line(
+  aes(x = date,
+      y = n_outbreak_associated,
+      color = pathogen,
+      linetype = state)) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Number of Outbreaks (Associated with Pathogen)",
+       color= "Pathogen",
+       linetype="State",
+       title = "Pathogen Associated with an Outbreak by State (2017-2022)") +
+  theme(plot.title = element_text(hjust = 0.6))
+```
+***Salmonella*** and ***Ecoli*** look to be the pathogens that are associated with the largest number of outbreaks among these four states.
+
+### Pathogen Source by State
+
+Have you ever wondered what laboratories isolate pathogens from? Let's explore the possibilities below!
+```{r}
+#Plotting 
+ggplot(bc, aes(state, pathogen, colour = source)) + geom_count(show.legend=T) +
+  labs(y="Pathogen", 
+       x="State", 
+       title="Pathogen Source by State (2017-2022)")
+```
+From the visualization above, it looks like most labs are able to isolate pathogens from **stool** samples, however, there may be variation by state!
+
+## Potentially helpful resource
+[This website](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#Counts%20Chart) seems to be a helpful resource for data visualization. I found some interesting visualizations and hope to practice utilizing several.
