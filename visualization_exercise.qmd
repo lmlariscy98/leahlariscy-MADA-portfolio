@@ -5,4 +5,67 @@ output:
     toc: FALSE
 ---
 
-Placeholder file for the future visualization exercise.
+# Data is from a FiveThirtyEight article [Inside The Political Donation History Of Wealthy Sports Owners](https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/)
+
+## Here is their plot:
+
+![](https://fivethirtyeight.com/wp-content/uploads/2020/10/espn.DONATIONS.1028-2-1.png?w=1150)
+
+## Load packages
+
+```{r}
+library(tidyverse)
+library(here)
+library(ggthemes)
+```
+
+## Set figure size
+
+```{r}
+knitr::opts_chunk$set(fig.width=10, fig.height=8) 
+```
+
+## Load data
+
+```{r}
+here()
+donation <- read_csv("data/sports-political-donations/sports-political-donations.csv")
+donation
+```
+
+## Clean and wrangle data
+
+```{r}
+donation_clean <- donation %>% 
+  filter(League ==c("MLB","NASCAR","NBA","NFL","NHL","WNBA")) %>%
+  filter(Party ==c("Democrat","Republican")) %>% 
+  mutate(Amount = parse_number(Amount)) %>% 
+  group_by(League,`Election Year`,Party) %>% 
+  summarise(party_donations = sum(Amount)) %>% 
+  ungroup() 
+```
+
+## Plot data
+
+```{r}
+donation_plot <- donation_clean %>%
+ggplot(aes(fill=Party, y=party_donations, x=`Election Year`)) +
+geom_bar(position = "fill", stat = "identity", color = "white") +
+facet_wrap(as.factor(donation_clean$League)) + #plot by League
+scale_fill_manual(name="DONATIONS TO", values=c("#00A5E3", "#CC0000"), #looked up hexcodes on google
+labels=c("DEMOCRATS","REPUBLICANS")) + #fill colors in correct order
+theme_fivethirtyeight() +
+scale_x_continuous(breaks = seq(2016,2020,2)) + #2 year breaks between 2016 & 2020
+labs(title = "Across leagues, majority of donations go to Republicans",
+subtitle = "Share of donations from team owners in six leagues, per year, league and party") +
+theme(legend.title = element_text(face = "bold", size = 16),
+legend.text = element_text(size = 16),
+plot.title.position = "plot",
+plot.title = element_text(face = "bold", size = 24),
+plot.subtitle = element_text(size = 18),
+legend.position = "top",
+axis.text.x = element_text(size = 14))
+donation_plot
+```
+
+Because I had to remove some data, my plot looks slightly different but still similar.
