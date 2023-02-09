@@ -5,7 +5,7 @@ output:
     toc: FALSE
 ---
 
-# Data is from a FiveThirtyEight article [Inside The Political Donation History Of Wealthy Sports Owners](https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/)
+# Data is from the FiveThirtyEight article [Inside The Political Donation History Of Wealthy Sports Owners](https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/)
 
 ## Here is their plot:
 
@@ -14,9 +14,10 @@ output:
 ## Load packages
 
 ```{r}
-library(tidyverse)
-library(here)
-library(ggthemes)
+library(tidyverse) #for data cleaning
+library(here) #for setting file paths
+library(ggthemes) #for loading ggplot themes
+library(skimr) #for skimming data sets
 ```
 
 ## Set figure size
@@ -26,23 +27,42 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8)
 ```
 
 ## Load data
-
+You will see that the data set includes the following variables -> `Owner`,`Team`,`League`, `Recipient`, `Amount`, `Election Year`, and `Party`
 ```{r}
 here()
 donation <- read_csv("data/sports-political-donations/sports-political-donations.csv")
-donation
+skim(donation)
 ```
 
 ## Clean and wrangle data
+These are the following steps I took to prepare the data. 
 
+1. Filter for rows containing only the 6 leagues, leaving out ones that were cross-listed among many leagues. This removed a large amount of the data, meaning that a majority of team owners own multiple teams across various leagues.
+
+2. Filter for rows containing only democrat or republican, leaving out bipartisan donations. I would have left these in but I had issuing renaming all variations to just `bipartisan`.
+
+3. Parse the numerical values from `Amount` so it can then act as a numerical.
+
+4. Group by `League`, `Election Year`, and `Party`
+
+5. Sum the `Amount` of each group to find the total dollar amount of donations from each of the 6 leagues to each of the two parties in a given year. 
+
+6. Ungroup. Data is now ready to plot.
 ```{r}
 donation_clean <- donation %>% 
-  filter(League ==c("MLB","NASCAR","NBA","NFL","NHL","WNBA")) %>%
+  filter(League ==c("MLB","NASCAR","NBA","NFL","NHL","WNBA")) %>% 
+ 
   filter(Party ==c("Democrat","Republican")) %>% 
+  
   mutate(Amount = parse_number(Amount)) %>% 
+  
   group_by(League,`Election Year`,Party) %>% 
+  
   summarise(party_donations = sum(Amount)) %>% 
+  
   ungroup() 
+
+skim(donation_clean)
 ```
 
 ## Plot data
@@ -50,22 +70,31 @@ donation_clean <- donation %>%
 ```{r}
 donation_plot <- donation_clean %>%
 ggplot(aes(fill=Party, y=party_donations, x=`Election Year`)) +
-geom_bar(position = "fill", stat = "identity", color = "white") +
-facet_wrap(as.factor(donation_clean$League)) + #plot by League
-scale_fill_manual(name="DONATIONS TO", values=c("#00A5E3", "#CC0000"), #looked up hexcodes on google
-labels=c("DEMOCRATS","REPUBLICANS")) + #fill colors in correct order
-theme_fivethirtyeight() +
-scale_x_continuous(breaks = seq(2016,2020,2)) + #2 year breaks between 2016 & 2020
-labs(title = "Across leagues, majority of donations go to Republicans",
-subtitle = "Share of donations from team owners in six leagues, per year, league and party") +
-theme(legend.title = element_text(face = "bold", size = 16),
-legend.text = element_text(size = 16),
-plot.title.position = "plot",
-plot.title = element_text(face = "bold", size = 24),
-plot.subtitle = element_text(size = 18),
-legend.position = "top",
-axis.text.x = element_text(size = 14))
-donation_plot
+
+  geom_bar(position = "fill", stat = "identity", color = "white") + #basic geometry of plot, bar plot
+
+  facet_wrap(as.factor(donation_clean$League)) + #plot by individual League
+
+  scale_fill_manual(name="DONATIONS TO", values=c("#00A5E3", "#CC0000"), #looked up hexcodes on google 
+  labels=c("DEMOCRATS","REPUBLICANS")) + #fill colors in correct order
+
+  theme_fivethirtyeight() + #theme from fivethirtyeight website
+
+  scale_x_continuous(breaks = seq(2016,2020,2)) + #2 year breaks between 2016 & 2020
+
+  labs(title = "Across leagues, majority of donations go to Republicans",
+  subtitle = "Share of donations from team owners in six leagues, per year, league and party") +
+
+  theme(legend.title = element_text(face = "bold", size = 16),
+  legend.text = element_text(size = 16),
+  plot.title.position = "plot",
+  plot.title = element_text(face = "bold", size = 24),
+  plot.subtitle = element_text(size = 18),
+  legend.position = "top",
+  axis.text.x = element_text(size = 14))
+  donation_plot
 ```
 
-Because I had to remove some data, my plot looks slightly different but still similar.
+You will notice that the proportions on my plot are slightly different from the original. This is because I excluded all cross-listed league affiliations (for the sake of time, but in the future I would like to be able to parse these out into individual observations). I also excluded bipartisan donations and NAs because I was having trouble renaming these all to `bipartisan`. I would also like to work on this, as I would like to be able to re-create this chart more accurately. 
+
+I also had some formatting issues that I couldn't quite work out on my own. For one, I could not figure out how to change the size of the facet labels. I also struggled to find a way to change the y-axis tick labels to be percentages like on the original. 
