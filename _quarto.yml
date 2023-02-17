@@ -24,7 +24,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: quartz
     highlight: zenburn
     css: styles.css
     toc: FALSE
