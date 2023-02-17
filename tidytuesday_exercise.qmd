@@ -86,9 +86,9 @@ age_gaps_sexuality %>% ggplot(aes(sexuality, age_difference, color = sexuality))
   geom_boxplot() +
   ggthemes::theme_fivethirtyeight()
 ```
-It appears that gay couples have a higher average age gap than other sexualities, but remember that they make up less than 1% of observations
+It appears that gay couples have a higher average age gap than other sexualities, but remember that they make up ***only 1% of observations***.
 
-### Proportion of sexualities in couples throughout the years
+### Number of same-movie couples throughout the years
 ```{r}
 age_gaps_sexuality %>% ggplot(aes(y = couple_number, x = release_year, fill = sexuality)) + 
   geom_bar(stat = "identity") +
@@ -133,9 +133,7 @@ age_gaps %>% ggplot(aes(actor_1_age, age_difference, color = character_1_gender)
        
       
 ```
-Men in Hollywood who are older are more likely to have an increased age gap in their relationships as they age.
-
-
+Men in Hollywood who date younger people (most of them) are more likely to have an increased age gap in their relationships as they age, more so than women.
 
 ```{r}
 age_gaps %>% ggplot(aes(actor_2_age, age_difference, color = character_2_gender)) +
@@ -146,9 +144,11 @@ age_gaps %>% ggplot(aes(actor_2_age, age_difference, color = character_2_gender)
   ggthemes::theme_fivethirtyeight() +
   labs(title = "Linear model of younger parter's age vs. relationship age gap")
 ```
-We do not see this same trend with the younger partners. There are less men who are younger than their partner, and there seems to be no indication that their age is a determining factor in their relationship age gap. 
+We do not see this same trend with the younger partners. This makes sense partly because as someone gets older, there are going to be less people older than them and eventually they will have to be with someone their own age. 
 
-There are far more women who are younger than their partner, and overall it appears there are less women in couples past the age of 40, compared to the first scatter plot where men are in couples well past their 40s. 
+There are less men who are younger than their partner than men who are older, and there seems to be no indication that their age is a determining factor in their relationship age gap. 
+
+There are far more women who are younger than their partner than men, and overall it appears there are less women in couples past the age of 40, compared to the first scatter plot where men are in couples well past their 40s.
 
 
 
@@ -159,6 +159,7 @@ What I learned from looking at this data of Hollywood couples on the same movie 
 -   Men (~80%) were more likely to date someone younger than them then women (20%) were
 -   Older men had a higher average age gap in their relationships (10 years vs 2-3 years in women), meaning they were more likely to date women much younger than them than older women were to date much younger men
 -   Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men aged, they continued to date young women
+-   
 
 From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. I would also be interested in looking at the average age of all men recorded vs the average age of women because I have a feeling that men on average are older.
 
