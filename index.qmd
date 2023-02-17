@@ -5,12 +5,7 @@ output:
     toc: FALSE
 ---
 
-# Hello!
+# This is Leah Lariscy's data analysis portfolio for EPID 8060 (MADA)
 
-### This is my website! 
+* Please use the `Menu Bar` above to look at completed exercises.
 
-Welcome to **my website** and _data analysis portfolio._ 
-
-
-* Please use the `Menu Bar` above to look around.
-* Have fun!
