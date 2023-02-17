@@ -24,7 +24,7 @@ website:
 
 format:
   html:
-    theme: sketchy
+    theme: solar
     highlight: zenburn
     css: styles.css
     toc: FALSE

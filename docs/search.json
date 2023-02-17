@@ -67,7 +67,7 @@
     "href": "index.html",
     "title": "Leah Lariscy’s website and data analysis portfolio",
     "section": "",
-    "text": "Hello!\n\nThis is my website!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
+    "text": "EPID 8060 (MADA)\n\nPlease use the Menu Bar above to look at completed exercises."
   },
   {
     "objectID": "data_analysis_exercise.html",
@@ -228,7 +228,7 @@
     "href": "tidytuesday_exercise.html#ideas-for-analysis",
     "title": "Tidy Tuesday Exercise",
     "section": "Ideas for analysis",
-    "text": "Ideas for analysis\n\nI will start by designating sexuality of each couple into three groups (straight, gay, sapphic) because I am interested to see how many queer couples there are. If there are enough, we could look at age gap differences between each group.\nI will then determine which gender is the oldest in each pair because I hypothesize that men will be older more of the time.\nI then want to see\ndifference in age gaps between straight and gay couples?"
+    "text": "Ideas for analysis\n\nI will start by designating sexuality of each couple into three groups (straight, gay, sapphic) because I am interested to see how many queer couples there are. If there are enough, we could look at age gap differences between each group.\nI will then determine which gender is the oldest in each pair because I hypothesize that men will be older more of the time.\nI will start with these two questions for now and see where they take me"
   },
   {
     "objectID": "tidytuesday_exercise.html#mutate-data",

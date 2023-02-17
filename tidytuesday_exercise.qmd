@@ -44,8 +44,7 @@ By using `skim()`, I can see many interesting things about the data:
 
 -   I will start by designating sexuality of each couple into three groups (straight, gay, sapphic) because I am interested to see how many queer couples there are. If there are enough, we could look at age gap differences between each group.
 -   I will then determine which gender is the oldest in each pair because I hypothesize that men will be older more of the time. 
--   I then want to see 
--   difference in age gaps between straight and gay couples?
+-   I will start with these two questions for now and see where they take me
 
 ## Mutate data
 
@@ -105,7 +104,8 @@ Only straight couples were documented in Hollywood prior to the 1990s. Queer cou
 ```{r}
 age_gaps %>% ggplot(aes(character_1_gender, age_difference, color = character_1_gender)) +
   geom_boxplot() +
-  scale_color_manual(values = c('#00C4D4', '#634490'))
+  scale_color_manual(values = c('#00C4D4', '#634490')) +
+   ggthemes::theme_fivethirtyeight()
 ```
 Within Hollywood, older men tend to have a higher age gap with their partner than older women do.
 
@@ -113,7 +113,8 @@ Within Hollywood, older men tend to have a higher age gap with their partner tha
 ```{r}
 age_gaps %>% ggplot(aes(character_2_gender, age_difference, color = character_2_gender)) +
   geom_boxplot() +
-  scale_color_manual(values = c('#00C4D4', '#634490'))
+  scale_color_manual(values = c('#00C4D4', '#634490')) +
+   ggthemes::theme_fivethirtyeight()
 
 ```
 Within Hollywood, younger men tend to have a smaller age gap with their partners compared to younger women who have a larger average age gap.
@@ -155,9 +156,11 @@ There are far more women who are younger than their partner, and overall it appe
 ## Discussion and conclusions
 What I learned from looking at this data of Hollywood couples on the same movie set:
 
--   98% of documented Hollywood couples were heterosexual
+-   98% of documented couples were heterosexual
 -   Men were more likely to date someone younger than them then women were
 -   Older men had a higher average age gap in their relationships, meaning they were more likely to date women much younger than them than older women were to date much younger men
 -   Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men age, they continue to date young women
 
-From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. 
+From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. I would also be interested in looking at the average age of all men recorded vs the average age of women because I have a feeling that men on average are older.
+
+To conclude, and to quote Taylor Swift, "I'll get older, but your lovers stay my age".
