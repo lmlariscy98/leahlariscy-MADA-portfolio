@@ -5,21 +5,20 @@ output:
     toc: FALSE
 ---
 
-## Introduction
+# Introduction
 
-This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.
+### This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.
 
-## Loading packages and set figure size
+# Loading packages and setting figure size
 
 ```{r}
 library(tidyverse)
-library(plotly)
 library(skimr)
 library(ggpmisc)
 knitr::opts_chunk$set(fig.width=10, fig.height=8) 
 ```
 
-## Data loading
+# Data loading
 
 Follow the [TidyTuesday instructions for 2023-02-14](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-14/readme.md)
 
@@ -27,7 +26,7 @@ Follow the [TidyTuesday instructions for 2023-02-14](https://github.com/rfordata
 age_gaps <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-14/age_gaps.csv')
 ```
 
-## Data exploration
+# Data exploration
 
 ```{r}
 skim(age_gaps)
@@ -40,13 +39,13 @@ By using `skim()`, I can see many interesting things about the data:
 -   Some actor names are repeated upwards of 20 times, showing that they have been involved in multiple couples.
 
 
-## Ideas for analysis
+# Ideas for analysis
 
 -   I will start by designating sexuality of each couple into three groups (straight, gay, sapphic) because I am interested to see how many queer couples there are. If there are enough, we could look at age gap differences between each group.
 -   I will then determine which gender is the oldest in each pair because I hypothesize that men will be older more of the time. 
 -   I will start with these two questions for now and see where they take me
 
-## Mutate data
+# Mutate data
 
 ### Classifying sexuality of each couple
 Here I will create a new variable called `sexuality` based on whether each couple is of same or opposite gender, creating three labels for these relationships: straight (man & woman), gay (man & man), and sapphic (woman & woman)
@@ -78,7 +77,7 @@ tibble(older_count)
 
 As you can see here, men in Hollywood are much more likely to be older than their partner than women are. In this data set, ***men were older than their partner 80% of the time.***
 
-## Data visualization
+# Data visualization
 
 ### Difference in average age gaps between straight, gay, and sapphic couples
 
@@ -153,13 +152,13 @@ There are far more women who are younger than their partner, and overall it appe
 
 
 
-## Discussion and conclusions
+# Discussion and conclusions
 What I learned from looking at this data of Hollywood couples on the same movie set:
 
 -   98% of documented couples were heterosexual
--   Men were more likely to date someone younger than them then women were
--   Older men had a higher average age gap in their relationships, meaning they were more likely to date women much younger than them than older women were to date much younger men
--   Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men age, they continue to date young women
+-   Men (~80%) were more likely to date someone younger than them then women (20%) were
+-   Older men had a higher average age gap in their relationships (10 years vs 2-3 years in women), meaning they were more likely to date women much younger than them than older women were to date much younger men
+-   Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men aged, they continued to date young women
 
 From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. I would also be interested in looking at the average age of all men recorded vs the average age of women because I have a feeling that men on average are older.
 

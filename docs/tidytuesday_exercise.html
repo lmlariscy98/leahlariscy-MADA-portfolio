@@ -98,10 +98,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -207,12 +207,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
 <p>This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.</p>
 </section>
-<section id="loading-packages-and-set-figure-size" class="level2">
-<h2 class="anchored" data-anchor-id="loading-packages-and-set-figure-size">Loading packages and set figure size</h2>
+<section id="loading-packages-and-setting-figure-size" class="level1">
+<h1>Loading packages and setting figure size</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -225,25 +225,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'plotly'
-
-The following object is masked from 'package:ggplot2':
-
-    last_plot
-
-The following object is masked from 'package:stats':
-
-    filter
-
-The following object is masked from 'package:graphics':
-
-    layout</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: ggpp
 
@@ -253,14 +236,14 @@ The following object is masked from 'package:ggplot2':
 
     annotate</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">fig.width=</span><span class="dv">10</span>, <span class="at">fig.height=</span><span class="dv">8</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">fig.width=</span><span class="dv">10</span>, <span class="at">fig.height=</span><span class="dv">8</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="data-loading" class="level2">
-<h2 class="anchored" data-anchor-id="data-loading">Data loading</h2>
+<section id="data-loading" class="level1">
+<h1>Data loading</h1>
 <p>Follow the <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-14/readme.md">TidyTuesday instructions for 2023-02-14</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-14/age_gaps.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-14/age_gaps.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1155 Columns: 13
 ── Column specification ────────────────────────────────────────────────────────
@@ -274,10 +257,10 @@ date (2): actor_1_birthdate, actor_2_birthdate
 </div>
 </div>
 </section>
-<section id="data-exploration" class="level2">
-<h2 class="anchored" data-anchor-id="data-exploration">Data exploration</h2>
+<section id="data-exploration" class="level1">
+<h1>Data exploration</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(age_gaps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(age_gaps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <caption>Data summary</caption>
@@ -561,31 +544,31 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <li>Some actor names are repeated upwards of 20 times, showing that they have been involved in multiple couples.</li>
 </ul>
 </section>
-<section id="ideas-for-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="ideas-for-analysis">Ideas for analysis</h2>
+<section id="ideas-for-analysis" class="level1">
+<h1>Ideas for analysis</h1>
 <ul>
 <li>I will start by designating sexuality of each couple into three groups (straight, gay, sapphic) because I am interested to see how many queer couples there are. If there are enough, we could look at age gap differences between each group.</li>
 <li>I will then determine which gender is the oldest in each pair because I hypothesize that men will be older more of the time.</li>
 <li>I will start with these two questions for now and see where they take me</li>
 </ul>
 </section>
-<section id="mutate-data" class="level2">
-<h2 class="anchored" data-anchor-id="mutate-data">Mutate data</h2>
+<section id="mutate-data" class="level1">
+<h1>Mutate data</h1>
 <section id="classifying-sexuality-of-each-couple" class="level3">
 <h3 class="anchored" data-anchor-id="classifying-sexuality-of-each-couple">Classifying sexuality of each couple</h3>
 <p>Here I will create a new variable called <code>sexuality</code> based on whether each couple is of same or opposite gender, creating three labels for these relationships: straight (man &amp; woman), gay (man &amp; man), and sapphic (woman &amp; woman)</p>
 <p>I will also look at how many observations there are for each sexuality.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="ot">&lt;-</span> age_gaps <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sexuality =</span> <span class="fu">case_when</span>(character_1_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_2_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'straight'</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                               character_1_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_2_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">~</span> <span class="st">'gay'</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                               character_1_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">&amp;</span> character_2_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'sapphic'</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                               character_2_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_1_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'straight'</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                               character_2_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_1_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">~</span> <span class="st">'gay'</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                               character_2_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">&amp;</span> character_1_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'sapphic'</span>))</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>sexuality_count <span class="ot">&lt;-</span> age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">count</span>(sexuality)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>sexuality_count <span class="ot">&lt;-</span> sexuality_count <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">proportion =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(sexuality_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="ot">&lt;-</span> age_gaps <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sexuality =</span> <span class="fu">case_when</span>(character_1_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_2_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'straight'</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                               character_1_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_2_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">~</span> <span class="st">'gay'</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                               character_1_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">&amp;</span> character_2_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'sapphic'</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                               character_2_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_1_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'straight'</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                               character_2_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">&amp;</span> character_1_gender <span class="sc">==</span> <span class="st">'man'</span> <span class="sc">~</span> <span class="st">'gay'</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                               character_2_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">&amp;</span> character_1_gender <span class="sc">==</span> <span class="st">'woman'</span> <span class="sc">~</span> <span class="st">'sapphic'</span>))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>sexuality_count <span class="ot">&lt;-</span> age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">count</span>(sexuality)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>sexuality_count <span class="ot">&lt;-</span> sexuality_count <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">proportion =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(sexuality_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   sexuality     n proportion
@@ -601,9 +584,9 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <h3 class="anchored" data-anchor-id="counting-how-many-times-each-gender-is-older-than-their-partner">Counting how many times each gender is older than their partner</h3>
 <p>Here, I will count the number of times each gender is older and then calculate that proportion.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>older_count <span class="ot">&lt;-</span> age_gaps <span class="sc">%&gt;%</span> <span class="fu">count</span>(character_1_gender)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>older_count <span class="ot">&lt;-</span> older_count <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">proportion =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(older_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>older_count <span class="ot">&lt;-</span> age_gaps <span class="sc">%&gt;%</span> <span class="fu">count</span>(character_1_gender)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>older_count <span class="ot">&lt;-</span> older_count <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">proportion =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(older_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   character_1_gender     n proportion
@@ -615,14 +598,14 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <p>As you can see here, men in Hollywood are much more likely to be older than their partner than women are. In this data set, <strong><em>men were older than their partner 80% of the time.</em></strong></p>
 </section>
 </section>
-<section id="data-visualization" class="level2">
-<h2 class="anchored" data-anchor-id="data-visualization">Data visualization</h2>
+<section id="data-visualization" class="level1">
+<h1>Data visualization</h1>
 <section id="difference-in-average-age-gaps-between-straight-gay-and-sapphic-couples" class="level3">
 <h3 class="anchored" data-anchor-id="difference-in-average-age-gaps-between-straight-gay-and-sapphic-couples">Difference in average age gaps between straight, gay, and sapphic couples</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(sexuality, age_difference, <span class="at">color =</span> sexuality)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(sexuality, age_difference, <span class="at">color =</span> sexuality)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="960"></p>
 </div>
@@ -632,10 +615,10 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <section id="proportion-of-sexualities-in-couples-throughout-the-years" class="level3">
 <h3 class="anchored" data-anchor-id="proportion-of-sexualities-in-couples-throughout-the-years">Proportion of sexualities in couples throughout the years</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> couple_number, <span class="at">x =</span> release_year, <span class="at">fill =</span> sexuality)) <span class="sc">+</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">"Year Released"</span>, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1930</span>,<span class="dv">2022</span>,<span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> couple_number, <span class="at">x =</span> release_year, <span class="at">fill =</span> sexuality)) <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">"Year Released"</span>, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1930</span>,<span class="dv">2022</span>,<span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="960"></p>
 </div>
@@ -645,9 +628,10 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <section id="difference-in-age-gaps-between-older-men-and-women" class="level3">
 <h3 class="anchored" data-anchor-id="difference-in-age-gaps-between-older-men-and-women">Difference in age gaps between older men and women</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(character_1_gender, age_difference, <span class="at">color =</span> character_1_gender)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(character_1_gender, age_difference, <span class="at">color =</span> character_1_gender)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>   ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="960"></p>
 </div>
@@ -657,9 +641,10 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <section id="difference-in-age-gaps-between-younger-men-and-women" class="level3">
 <h3 class="anchored" data-anchor-id="difference-in-age-gaps-between-younger-men-and-women">Difference in age gaps between younger men and women</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(character_2_gender, age_difference, <span class="at">color =</span> character_2_gender)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(character_2_gender, age_difference, <span class="at">color =</span> character_2_gender)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>   ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="960"></p>
 </div>
@@ -669,26 +654,26 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <section id="linear-regression-of-age-vs-age-gap-between-men-and-women" class="level3">
 <h3 class="anchored" data-anchor-id="linear-regression-of-age-vs-age-gap-between-men-and-women">Linear regression of age vs age gap between men and women</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(actor_1_age, age_difference, <span class="at">color =</span> character_1_gender)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_line</span>() <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_eq</span>() <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Gender"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>)) <span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>() <span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear model of older partner's age vs. relationship age gap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(actor_1_age, age_difference, <span class="at">color =</span> character_1_gender)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_line</span>() <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_eq</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Gender"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>)) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>() <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear model of older partner's age vs. relationship age gap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>Men in Hollywood who are older are more likely to have an increased age gap in their relationships as they age.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(actor_2_age, age_difference, <span class="at">color =</span> character_2_gender)) <span class="sc">+</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_line</span>() <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_eq</span>() <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>)) <span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>() <span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear model of younger parter's age vs. relationship age gap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(actor_2_age, age_difference, <span class="at">color =</span> character_2_gender)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_line</span>() <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_eq</span>() <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'#00C4D4'</span>, <span class="st">'#634490'</span>)) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_fivethirtyeight</span>() <span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear model of younger parter's age vs. relationship age gap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="960"></p>
 </div>
@@ -697,16 +682,17 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <p>There are far more women who are younger than their partner, and overall it appears there are less women in couples past the age of 40, compared to the first scatter plot where men are in couples well past their 40s.</p>
 </section>
 </section>
-<section id="discussion-and-conclusions" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-and-conclusions">Discussion and conclusions</h2>
+<section id="discussion-and-conclusions" class="level1">
+<h1>Discussion and conclusions</h1>
 <p>What I learned from looking at this data of Hollywood couples on the same movie set:</p>
 <ul>
-<li>98% of documented Hollywood couples were heterosexual</li>
+<li>98% of documented couples were heterosexual</li>
 <li>Men were more likely to date someone younger than them then women were</li>
 <li>Older men had a higher average age gap in their relationships, meaning they were more likely to date women much younger than them than older women were to date much younger men</li>
 <li>Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men age, they continue to date young women</li>
 </ul>
-<p>From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age.</p>
+<p>From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. I would also be interested in looking at the average age of all men recorded vs the average age of women because I have a feeling that men on average are older.</p>
+<p>To conclude, and to quote Taylor Swift, “I’ll get older, but your lovers stay my age”.</p>
 
 
 </section>
