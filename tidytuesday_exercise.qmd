@@ -5,4 +5,159 @@ output:
     toc: FALSE
 ---
 
-Placeholder file for the future Tidy Tuesday exercise.
+## Introduction
+
+This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.
+
+## Loading packages and set figure size
+
+```{r}
+library(tidyverse)
+library(plotly)
+library(skimr)
+library(ggpmisc)
+knitr::opts_chunk$set(fig.width=10, fig.height=8) 
+```
+
+## Data loading
+
+Follow the [TidyTuesday instructions for 2023-02-14](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-14/readme.md)
+
+```{r}
+age_gaps <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-14/age_gaps.csv')
+```
+
+## Data exploration
+
+```{r}
+skim(age_gaps)
+```
+
+By using `skim()`, I can see many interesting things about the data:
+
+-   The mean age difference between couples is about ***10*** years.
+-   There are ***830*** unique movies listed, spanning from 1935 to 2022, with most movies only having one couple each.
+-   Some actor names are repeated upwards of 20 times, showing that they have been involved in multiple couples.
+
+
+## Ideas for analysis
+
+-   I will start by designating sexuality of each couple into three groups (straight, gay, sapphic) because I am interested to see how many queer couples there are. If there are enough, we could look at age gap differences between each group.
+-   I will then determine which gender is the oldest in each pair because I hypothesize that men will be older more of the time. 
+-   I then want to see 
+-   difference in age gaps between straight and gay couples?
+
+## Mutate data
+
+### Classifying sexuality of each couple
+Here I will create a new variable called `sexuality` based on whether each couple is of same or opposite gender, creating three labels for these relationships: straight (man & woman), gay (man & man), and sapphic (woman & woman)
+
+I will also look at how many observations there are for each sexuality.
+
+```{r}
+age_gaps_sexuality <- age_gaps %>% 
+  mutate(sexuality = case_when(character_1_gender == 'man' & character_2_gender == 'woman' ~ 'straight',
+                               character_1_gender == 'man' & character_2_gender == 'man' ~ 'gay',
+                               character_1_gender == 'woman' & character_2_gender == 'woman' ~ 'sapphic',
+                               character_2_gender == 'man' & character_1_gender == 'woman' ~ 'straight',
+                               character_2_gender == 'man' & character_1_gender == 'man' ~ 'gay',
+                               character_2_gender == 'woman' & character_1_gender == 'woman' ~ 'sapphic'))
+sexuality_count <- age_gaps_sexuality %>% count(sexuality)
+sexuality_count <- sexuality_count %>% mutate(proportion = n/sum(n))
+tibble(sexuality_count)
+```
+Here, you see that ***98% of couples in this data set can be defined as heterosexual.***
+
+### Counting how many times each gender is older than their partner
+Here, I will count the number of times each gender is older and then calculate that proportion.
+
+```{r}
+older_count <- age_gaps %>% count(character_1_gender)
+older_count <- older_count %>% mutate(proportion = n/sum(n))
+tibble(older_count)
+```
+
+As you can see here, men in Hollywood are much more likely to be older than their partner than women are. In this data set, ***men were older than their partner 80% of the time.***
+
+## Data visualization
+
+### Difference in average age gaps between straight, gay, and sapphic couples
+
+```{r}
+age_gaps_sexuality %>% ggplot(aes(sexuality, age_difference, color = sexuality)) +
+  geom_boxplot() +
+  ggthemes::theme_fivethirtyeight()
+```
+It appears that gay couples have a higher average age gap than other sexualities, but remember that they make up less than 1% of observations
+
+### Proportion of sexualities in couples throughout the years
+```{r}
+age_gaps_sexuality %>% ggplot(aes(y = couple_number, x = release_year, fill = sexuality)) + 
+  geom_bar(stat = "identity") +
+  scale_x_continuous(name = "Year Released", breaks = seq(1930,2022,10)) +
+  ggthemes::theme_fivethirtyeight()
+
+```
+Only straight couples were documented in Hollywood prior to the 1990s. Queer couplings began to be documented in the 1990s and early 2000s, but still make up a small portion of couples which we saw earlier. We can also note that queer couplings started to pop up around the time that couple numbers in Hollywood dramatically increased in the late 1990s.
+
+
+### Difference in age gaps between older men and women
+```{r}
+age_gaps %>% ggplot(aes(character_1_gender, age_difference, color = character_1_gender)) +
+  geom_boxplot() +
+  scale_color_manual(values = c('#00C4D4', '#634490'))
+```
+Within Hollywood, older men tend to have a higher age gap with their partner than older women do.
+
+### Difference in age gaps between younger men and women
+```{r}
+age_gaps %>% ggplot(aes(character_2_gender, age_difference, color = character_2_gender)) +
+  geom_boxplot() +
+  scale_color_manual(values = c('#00C4D4', '#634490'))
+
+```
+Within Hollywood, younger men tend to have a smaller age gap with their partners compared to younger women who have a larger average age gap.
+
+
+### Linear regression of age vs age gap between men and women
+
+```{r}
+age_gaps %>% ggplot(aes(actor_1_age, age_difference, color = character_1_gender)) +
+  stat_poly_line() +
+  stat_poly_eq() +
+  geom_jitter() +
+  scale_color_manual(name = "Gender", values = c('#00C4D4', '#634490')) +
+  ggthemes::theme_fivethirtyeight() +
+  labs(title = "Linear model of older partner's age vs. relationship age gap")
+  
+       
+      
+```
+Men in Hollywood who are older are more likely to have an increased age gap in their relationships as they age.
+
+
+
+```{r}
+age_gaps %>% ggplot(aes(actor_2_age, age_difference, color = character_2_gender)) +
+  stat_poly_line() +
+  stat_poly_eq() +
+  geom_jitter() +
+  scale_color_manual(values = c('#00C4D4', '#634490')) +
+  ggthemes::theme_fivethirtyeight() +
+  labs(title = "Linear model of younger parter's age vs. relationship age gap")
+```
+We do not see this same trend with the younger partners. There are less men who are younger than their partner, and there seems to be no indication that their age is a determining factor in their relationship age gap. 
+
+There are far more women who are younger than their partner, and overall it appears there are less women in couples past the age of 40, compared to the first scatter plot where men are in couples well past their 40s. 
+
+
+
+## Discussion and conclusions
+What I learned from looking at this data of Hollywood couples on the same movie set:
+
+-   98% of documented Hollywood couples were heterosexual
+-   Men were more likely to date someone younger than them then women were
+-   Older men had a higher average age gap in their relationships, meaning they were more likely to date women much younger than them than older women were to date much younger men
+-   Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men age, they continue to date young women
+
+From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. 
