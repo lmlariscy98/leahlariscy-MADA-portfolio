@@ -1,0 +1,255 @@
+---
+title: "Flu Data Model Fitting"
+editor: visual
+---
+
+# Modeling!
+
+## Load packages
+
+```{r}
+library(tidymodels)
+library(tidyverse)
+library(here)
+library(dotwhisker)
+```
+
+## Load data
+
+```{r}
+symptoms_fit <- readRDS(here("fluanalysis/data/processed_data/symptoms_clean.RDS"))
+tibble(symptoms_fit) #quick look at data
+```
+
+Data looks good to go
+
+## Create model to predict body temp based on all other variables (linear regression)
+
+### Split data into training set and testing set
+
+```{r}
+data_split <- initial_split(symptoms_fit, prop = 3/4)
+
+train_data <- training(data_split)
+test_data <- testing(data_split)
+```
+
+### Define model
+
+```{r}
+lm_mod <- linear_reg() #set model type as linear regression
+```
+
+### Create recipe
+
+```{r}
+recipe_bodytemp <- recipe(BodyTemp ~ ., data = train_data)
+```
+
+### Add model and recipe together to create workflow
+
+```{r}
+bodytemp_lm_workflow <- workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(recipe_bodytemp)
+```
+
+### Model using the workflow created above
+
+```{r}
+bodytemp_fit <- bodytemp_lm_workflow %>% 
+  fit(data = train_data)
+tidy(bodytemp_fit)
+```
+
+### Create a dotwhisker plot to look at regression coefficients
+
+```{r}
+tidy(bodytemp_fit) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, 
+                            colour = "grey50", linetype = 2))
+
+```
+
+### Use model on test data to predict body temp outcome
+
+```{r}
+bodytemp_aug_test <- augment(bodytemp_fit, test_data)
+bodytemp_aug_test %>% select(BodyTemp, .pred)
+```
+
+### Use RMSE to evaluate model
+
+```{r}
+bodytemp_aug_test %>% 
+  rmse(truth = BodyTemp, .pred)
+```
+
+I think this means that this model is estimating body temp incorrectly by this amount (in either direction)
+
+## Create model to predict body temp based on runny nose data (linear regression)
+
+### Create recipe
+
+Since we already defined the training set and testing set, we don't need to do that again. We will just reuse those. We also already defined the model, so we don't need to do that again.
+
+```{r}
+recipe_bodytemp2 <- recipe(BodyTemp ~ RunnyNose, data = train_data)
+```
+
+Here, we have set the outcome of interest to be body temperature, and predictor of interest to be runny nose.
+
+### Combine model and recipe to create workflow
+
+```{r}
+bodytemp_lm_workflow2 <- workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(recipe_bodytemp2)
+```
+
+### Model using workflow and training data set
+
+```{r}
+bodytemp_fit2 <- bodytemp_lm_workflow2 %>% 
+  fit(data = train_data)
+tidy(bodytemp_fit2)
+```
+
+Now we have trained the model using the training data set.
+
+### Create a dotwhisker plot to look at regression coefficient
+
+```{r}
+tidy(bodytemp_fit2) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, 
+                            colour = "grey50", linetype = 2))
+```
+
+Looks like runny nose is a negative predictor of body temp (body temp is more likely to be lower if runny nose symptom is present)
+
+### Use model on test data to predict body temp
+
+```{r}
+bodytemp_aug_test2 <- augment(bodytemp_fit2, test_data)
+bodytemp_aug_test2 %>% select(BodyTemp, .pred)
+```
+
+### Use RMSE to evaluate model
+
+```{r}
+bodytemp_aug_test2 %>% 
+  rmse(truth = BodyTemp, .pred)
+```
+
+This is a similar output to what we saw in the first model, where estimation of body temp is slightly off by about 1 degree.
+
+## Create model to predict nausea based on all other variables (logistic regression)
+
+### Define model
+
+We will continue to use the model testing and training data sets that we created at the start. However, since we now want to create a logistic regression (outcome of interest is categorical), we will need to define a new model
+
+```{r}
+log_mod <- logistic_reg() %>% 
+  set_engine("glm")
+```
+
+### Create recipe
+
+```{r}
+recipe_nausea <- recipe(Nausea ~., data = train_data)
+```
+
+This sets the stage to predict nausea outcomes based on all other variables in the data set (predictors)
+
+### Combine model and recipe to create workflow
+
+```{r}
+nausea_log_wf <- workflow() %>% 
+  add_model(log_mod) %>% 
+  add_recipe(recipe_nausea)
+```
+
+### Model using workflow and training data
+
+```{r}
+nausea_fit <- nausea_log_wf %>% 
+  fit(data = train_data)
+
+nausea_fit %>% extract_fit_parsnip() %>% 
+  tidy()
+```
+
+Now we have trained the model, so let's use the test data to see how well this model predicts nausea.
+
+### Use model on test data
+
+```{r}
+predict(nausea_fit, test_data)
+```
+
+### Use ROC curve to assess model fit
+
+```{r}
+nausea_aug_test <- augment(nausea_fit, test_data)
+
+nausea_aug_test %>% 
+  roc_curve(truth = Nausea, .pred_Yes, event_level = "second") %>% 
+  autoplot()
+
+nausea_aug_test %>% roc_auc(truth = Nausea, .pred_Yes, 
+                            event_level = "second")
+```
+
+I think what this shows is that the model is a pretty decent predictor of nausea, however, it is more sensitive than it is specific, meaning that it is good at indicating true positives but not as good at indicating true negatives.
+
+## Create model to predict nausea based on runny nose (logistic regression)
+
+### Create recipe
+
+Since we have already split the data and defined the appropriate model, we will just need to create a new recipe that predicts nausea based on runny nose.
+
+```{r}
+recipe_nausea2 <- recipe(Nausea ~ RunnyNose, data = train_data)
+```
+
+### Combine model and recipe to create workflow
+
+```{r}
+nausea_log_wf2 <- workflow() %>% 
+  add_model(log_mod) %>% 
+  add_recipe(recipe_nausea2)
+```
+
+### Model using workflow and training data
+
+```{r}
+nausea_fit2 <- nausea_log_wf2 %>% 
+  fit(data = train_data)
+
+nausea_fit2 %>% extract_fit_parsnip() %>% 
+  tidy()
+```
+
+### Use model on test data
+
+```{r}
+predict(nausea_fit2, test_data)
+```
+
+### Use ROC curve to assess model fit
+
+```{r}
+nausea_aug_test2 <- augment(nausea_fit2, test_data)
+
+nausea_aug_test2 %>% 
+  roc_curve(truth = Nausea, .pred_Yes, event_level = "second") %>% 
+  autoplot()
+
+nausea_aug_test2 %>% roc_auc(truth = Nausea, .pred_Yes, 
+                            event_level = "second")
+```

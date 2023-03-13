@@ -169,6 +169,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Flu Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-flu-analysis">    
+        <li>
+    <a class="dropdown-item" href="./fluanalysis/code/wrangling.html">
+ <span class="dropdown-text">Data Wrangling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./fluanalysis/code/exploration.html">
+ <span class="dropdown-text">Data Exploration</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./fluanalysis/code/fitting.html">
+ <span class="dropdown-text">Model Fitting</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -209,21 +228,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.</p>
+<section id="this-is-the-tidytuesday-data-set-for-february-14th-2023.-data-consist-of-observations-pertaining-to-age-differences-in-couples-from-hollywood-movies-spanning-almost-an-entire-century." class="level3">
+<h3 class="anchored" data-anchor-id="this-is-the-tidytuesday-data-set-for-february-14th-2023.-data-consist-of-observations-pertaining-to-age-differences-in-couples-from-hollywood-movies-spanning-almost-an-entire-century.">This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.</h3>
+</section>
 </section>
 <section id="loading-packages-and-setting-figure-size" class="level1">
 <h1>Loading packages and setting figure size</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0     ✔ purrr   1.0.1
-✔ tibble  3.1.8     ✔ dplyr   1.0.9
-✔ tidyr   1.2.0     ✔ stringr 1.4.1
-✔ readr   2.1.2     ✔ forcats 0.5.2
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.0     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.1     ✔ tibble    3.1.8
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -610,10 +633,10 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-<p>It appears that gay couples have a higher average age gap than other sexualities, but remember that they make up less than 1% of observations</p>
+<p>It appears that gay couples have a higher average age gap than other sexualities, but remember that they make up <strong><em>only 1% of observations</em></strong>.</p>
 </section>
-<section id="proportion-of-sexualities-in-couples-throughout-the-years" class="level3">
-<h3 class="anchored" data-anchor-id="proportion-of-sexualities-in-couples-throughout-the-years">Proportion of sexualities in couples throughout the years</h3>
+<section id="number-of-same-movie-couples-throughout-the-years" class="level3">
+<h3 class="anchored" data-anchor-id="number-of-same-movie-couples-throughout-the-years">Number of same-movie couples throughout the years</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>age_gaps_sexuality <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> couple_number, <span class="at">x =</span> release_year, <span class="at">fill =</span> sexuality)) <span class="sc">+</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
@@ -665,7 +688,7 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-<p>Men in Hollywood who are older are more likely to have an increased age gap in their relationships as they age.</p>
+<p>Men in Hollywood who date younger people (most of them) are more likely to have an increased age gap in their relationships as they age, more so than women.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>age_gaps <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(actor_2_age, age_difference, <span class="at">color =</span> character_2_gender)) <span class="sc">+</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_poly_line</span>() <span class="sc">+</span></span>
@@ -678,8 +701,9 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-<p>We do not see this same trend with the younger partners. There are less men who are younger than their partner, and there seems to be no indication that their age is a determining factor in their relationship age gap.</p>
-<p>There are far more women who are younger than their partner, and overall it appears there are less women in couples past the age of 40, compared to the first scatter plot where men are in couples well past their 40s.</p>
+<p>We do not see this same trend with the younger partners. This makes sense partly because as someone gets older, there are going to be less people older than them and eventually they will have to be with someone their own age.</p>
+<p>There are less men who are younger than their partner than men who are older, and there seems to be no indication that their age is a determining factor in their relationship age gap.</p>
+<p>There are far more women who are younger than their partner than men, and overall it appears there are less women in couples past the age of 40, compared to the first scatter plot where men are in couples well past their 40s.</p>
 </section>
 </section>
 <section id="discussion-and-conclusions" class="level1">
@@ -687,9 +711,10 @@ date (2): actor_1_birthdate, actor_2_birthdate
 <p>What I learned from looking at this data of Hollywood couples on the same movie set:</p>
 <ul>
 <li>98% of documented couples were heterosexual</li>
-<li>Men were more likely to date someone younger than them then women were</li>
-<li>Older men had a higher average age gap in their relationships, meaning they were more likely to date women much younger than them than older women were to date much younger men</li>
-<li>Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men age, they continue to date young women</li>
+<li>Men (~80%) were more likely to date someone younger than them then women (20%) were</li>
+<li>Older men had a higher average age gap in their relationships (10 years vs 2-3 years in women), meaning they were more likely to date women much younger than them than older women were to date much younger men</li>
+<li>Older partners of both genders showed an increase in relationship age gaps as their own age increased, although this was much more pronounced for men, meaning that as these men aged, they continued to date young women</li>
+<li></li>
 </ul>
 <p>From this data exploration, I have concluded that on average, men in Hollywood tend to date much younger women than themselves. They also continue to date much younger women as they age. I would also be interested in looking at the average age of all men recorded vs the average age of women because I have a feeling that men on average are older.</p>
 <p>To conclude, and to quote Taylor Swift, “I’ll get older, but your lovers stay my age”.</p>

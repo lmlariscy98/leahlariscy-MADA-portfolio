@@ -1,0 +1,112 @@
+---
+title: "Flu Data Exploration"
+author: "Leah Lariscy"
+editor: visual
+---
+
+# Let's explore!
+
+## Load libraries first
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+## Load RDS file of clean symptom data
+
+```{r}
+symptoms_clean <- readRDS(here("fluanalysis/data/processed_data/symptoms_clean.RDS"))
+```
+
+## Lets look at the data to be sure it loaded correctly
+
+```{r}
+skimr::skim(symptoms_clean)
+```
+
+Looks like the data did load properly. There are 730 observations of 32 variables with no NAs. There are 31 factor and 1 integer variables.
+
+## Lets explore the important variables
+
+Outcomes of interest: body temperature, nausea
+
+Predictors of interest: weakness, fatigue, headache\
+
+### Look at summary statistics of all variables
+
+```{r}
+summary(symptoms_clean)
+```
+
+Here we see that most of the categorical variables have either `Yes` or `No` responses, simply indicating presence-absence of the symptoms. A few others have a range of responses to address the severity of certain symptoms. There is one continuous variable, `BodyTemp`, which has a range from 97.2 to 103.1. Nausea, our other outcome of interest, had 475 No and 255 Yes.
+
+### Histogram of `BodyTemp`
+
+```{r}
+symptoms_clean %>% ggplot(aes(BodyTemp)) +
+  geom_histogram(fill = "#d65aa8") +
+  theme_light()
+```
+
+Here we see the distribution of `BodyTemp`, showing that the most commonly reported body temperature was slightly higher than 98. This checks out, as we saw in the summary report above than the median is 98.5.
+
+### Boxplot of body temps in regards to weakness levels
+
+```{r}
+symptoms_clean %>% ggplot(aes(WeaknessYN, BodyTemp, color = WeaknessYN)) +
+  geom_boxplot() +
+  theme_light()
+```
+
+From first glance, it appears as if mean body temp increases when weakness is present.
+
+### Boxplot of body temp in regards to fatigue presence/absence
+
+```{r}
+symptoms_clean %>% ggplot(aes(Fatigue, BodyTemp, color = Fatigue)) +
+  geom_boxplot() +
+  theme_light()
+```
+
+It appears that mean body temp does increase slightly when fatigue is present.
+
+### Boxplot of body temp in regards to headache presence/absence
+
+```{r}
+symptoms_clean %>% ggplot(aes(Headache, BodyTemp, color = Headache)) +
+  geom_boxplot() +
+  theme_light()
+```
+
+It appears that mean body temp does increase slightly when headache is present.
+
+### Counts of Weakness presence/absence and Nausea presence/absence
+
+```{r}
+symptoms_clean %>% ggplot(aes(WeaknessYN, Nausea)) +
+  geom_count() +
+  theme_light()
+```
+
+The most common combination is weakness + no nausea, followed by weakness + nausea. The count size is similar for both though, so there may or may not a significant difference there. The least common observation is lack of weakness but presence of nausea. What this shows is that weakness is more common than no weakness, but that weakness may not necessarily determine nausea.
+
+### Counts of Fatigue presence/absence and Nausea presence/absence
+
+```{r}
+symptoms_clean %>% ggplot(aes(Fatigue, Nausea)) +
+  geom_count() +
+  theme_light()
+```
+
+This output is similar to the one above, where presence of fatigue is most common, but fatigue without the presence of nausea is slightly more common.
+
+### Counts of Headache presence/absence and Nausea presence/absence
+
+```{r}
+symptoms_clean %>% ggplot(aes(Headache, Nausea)) +
+  geom_count() +
+  theme_light()
+```
+
+Like in the previous two outputs, headaches are more common than not, but lack of nausea with headaches was slightly more common than presence of nausea.

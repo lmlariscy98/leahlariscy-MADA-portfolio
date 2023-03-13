@@ -18,6 +18,14 @@ website:
             href: ./tidytuesday_exercise.html
           - text: "Data Analysis Exercise"
             href: ./data_analysis_exercise.html
+      - text: "Flu Analysis"
+        menu: 
+          - text: "Data Wrangling"
+            href: ./fluanalysis/code/wrangling.qmd
+          - text: "Data Exploration"
+            href: ./fluanalysis/code/exploration.qmd
+          - text: "Model Fitting"
+            href: ./fluanalysis/code/fitting.qmd
     right:
       - icon: github 
         href: https://github.com/lmlariscy98/leahlariscy-MADA-portfolio        

@@ -1,0 +1,51 @@
+---
+title: "Flu Data Wrangling"
+author: "Leah Lariscy"
+editor: visual
+---
+
+# Wrangling time..
+
+## Load libraries
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+## Load data
+
+```{r}
+symptoms <- readRDS(here("fluanalysis/data/raw_data/SympAct_Any_Pos.Rda"))
+```
+
+## Look at data
+
+```{r}
+glimpse(symptoms)
+skimr::skim(symptoms)
+```
+
+After viewing the data, I see there are 63 variables and 735 observations. Most are coded as factors and integers, and there is 1 character variable. Some variables have quite a good amount of NAs.
+
+## Remove unnecessary variables
+
+```{r}
+symptoms <- symptoms %>% select(9:40)
+```
+
+Since all the variables of interest were all consecutive, I was able to easily select them based on their range of column number.
+
+## Remove NAs
+
+```{r}
+symptoms <- symptoms %>% na.omit()
+```
+
+Only 5 observations were removed, so it looks like we took care of most of the NAs when we selected for the relevant variables.
+
+## Cleaning is complete, save as RDS file
+
+```{r}
+saveRDS(symptoms, here("fluanalysis/data/processed_data/symptoms_clean.RDS"))
+```
