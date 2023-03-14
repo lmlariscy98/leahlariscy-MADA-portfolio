@@ -251,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ dplyr::filter()  masks stats::filter()
 ✖ dplyr::lag()     masks stats::lag()
 ✖ recipes::step()  masks stats::step()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -345,24 +345,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(bodytemp_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 38 × 5
-   term                 estimate std.error statistic   p.value
-   &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
- 1 (Intercept)           98.0        0.337   291.    0        
- 2 SwollenLymphNodesYes  -0.127      0.107    -1.18  0.237    
- 3 ChestCongestionYes     0.0354     0.112     0.317 0.751    
- 4 ChillsSweatsYes        0.183      0.145     1.26  0.208    
- 5 NasalCongestionYes    -0.207      0.132    -1.57  0.117    
- 6 CoughYNYes             0.289      0.300     0.964 0.336    
- 7 SneezeYes             -0.353      0.114    -3.09  0.00208  
- 8 FatigueYes             0.341      0.183     1.86  0.0634   
- 9 SubjectiveFeverYes     0.482      0.118     4.09  0.0000502
-10 HeadacheYes           -0.0679     0.141    -0.480 0.631    
+   term                 estimate std.error statistic p.value
+   &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)           98.0        0.369   266.    0      
+ 2 SwollenLymphNodesYes  -0.202      0.108    -1.86  0.0635 
+ 3 ChestCongestionYes     0.0792     0.115     0.690 0.491  
+ 4 ChillsSweatsYes        0.284      0.155     1.84  0.0662 
+ 5 NasalCongestionYes    -0.255      0.134    -1.91  0.0566 
+ 6 CoughYNYes             0.175      0.289     0.607 0.544  
+ 7 SneezeYes             -0.325      0.119    -2.74  0.00629
+ 8 FatigueYes             0.312      0.183     1.70  0.0895 
+ 9 SubjectiveFeverYes     0.333      0.125     2.67  0.00785
+10 HeadacheYes            0.0482     0.147     0.327 0.744  
 # … with 28 more rows</code></pre>
 </div>
 </div>
 </section>
-<section id="create-a-dotwhisker-plot-to-look-at-the-regression" class="level3">
-<h3 class="anchored" data-anchor-id="create-a-dotwhisker-plot-to-look-at-the-regression">Create a dotwhisker plot to look at the regression</h3>
+<section id="create-a-dotwhisker-plot-to-look-at-regression-coefficients" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-dotwhisker-plot-to-look-at-regression-coefficients">Create a dotwhisker plot to look at regression coefficients</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(bodytemp_fit) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
@@ -374,8 +374,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="use-model-on-testing-data-to-predict-body-temp-outcome" class="level3">
-<h3 class="anchored" data-anchor-id="use-model-on-testing-data-to-predict-body-temp-outcome">Use model on testing data to predict body temp outcome</h3>
+<section id="use-model-on-test-data-to-predict-body-temp-outcome" class="level3">
+<h3 class="anchored" data-anchor-id="use-model-on-test-data-to-predict-body-temp-outcome">Use model on test data to predict body temp outcome</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bodytemp_aug_test <span class="ot">&lt;-</span> <span class="fu">augment</span>(bodytemp_fit, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -387,16 +387,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code># A tibble: 183 × 2
    BodyTemp .pred
       &lt;dbl&gt; &lt;dbl&gt;
- 1     98.5  98.9
- 2     98.2  99.1
- 3     99    98.8
- 4    102.   99.1
- 5     98.1  98.4
- 6     98.2  99.1
- 7    100.   99.1
- 8    100.   98.9
- 9     98.1  99.8
-10     98.5  99.2
+ 1    100.   99.4
+ 2     98.5  98.6
+ 3     99.2  98.8
+ 4     99.3  99.3
+ 5    101.   99.0
+ 6     98.7  98.2
+ 7     98.8  99.7
+ 8     98.7  98.8
+ 9     98    98.5
+10    101.   99.2
 # … with 173 more rows</code></pre>
 </div>
 </div>
@@ -410,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard        1.21</code></pre>
+1 rmse    standard        1.12</code></pre>
 </div>
 </div>
 <p>I think this means that this model is estimating body temp incorrectly by this amount (in either direction)</p>
@@ -426,8 +426,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Here, we have set the outcome of interest to be body temperature, and predictor of interest to be runny nose.</p>
 </section>
-<section id="combine-model-and-recipe" class="level3">
-<h3 class="anchored" data-anchor-id="combine-model-and-recipe">Combine model and recipe</h3>
+<section id="combine-model-and-recipe-to-create-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="combine-model-and-recipe-to-create-workflow">Combine model and recipe to create workflow</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>bodytemp_lm_workflow2 <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_mod) <span class="sc">%&gt;%</span> </span>
@@ -442,10 +442,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(bodytemp_fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
-  term         estimate std.error statistic p.value
-  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-1 (Intercept)    99.1      0.0946   1048.    0     
-2 RunnyNoseYes   -0.276    0.112      -2.47  0.0138</code></pre>
+  term         estimate std.error statistic  p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    99.3      0.0988   1005.   0       
+2 RunnyNoseYes   -0.425    0.116      -3.67 0.000263</code></pre>
 </div>
 </div>
 <p>Now we have trained the model using the training data set.</p>
@@ -473,16 +473,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code># A tibble: 183 × 2
    BodyTemp .pred
       &lt;dbl&gt; &lt;dbl&gt;
- 1     98.5  98.9
- 2     98.2  99.1
- 3     99    98.9
- 4    102.   98.9
- 5     98.1  98.9
- 6     98.2  98.9
- 7    100.   98.9
- 8    100.   98.9
- 9     98.1  99.1
-10     98.5  98.9
+ 1    100.   99.3
+ 2     98.5  98.8
+ 3     99.2  98.8
+ 4     99.3  99.3
+ 5    101.   99.3
+ 6     98.7  98.8
+ 7     98.8  99.3
+ 8     98.7  98.8
+ 9     98    98.8
+10    101.   98.8
 # … with 173 more rows</code></pre>
 </div>
 </div>
@@ -496,10 +496,204 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard        1.23</code></pre>
+1 rmse    standard        1.16</code></pre>
 </div>
 </div>
-<p>This is a similar output to what we saw in the first model, where estimation of body temp is slightly off.</p>
+<p>This is a similar output to what we saw in the first model, where estimation of body temp is slightly off by about 1 degree.</p>
+</section>
+</section>
+<section id="create-model-to-predict-nausea-based-on-all-other-variables-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="create-model-to-predict-nausea-based-on-all-other-variables-logistic-regression">Create model to predict nausea based on all other variables (logistic regression)</h2>
+<section id="define-model-1" class="level3">
+<h3 class="anchored" data-anchor-id="define-model-1">Define model</h3>
+<p>We will continue to use the model testing and training data sets that we created at the start. However, since we now want to create a logistic regression (outcome of interest is categorical), we will need to define a new model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>log_mod <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-recipe-2" class="level3">
+<h3 class="anchored" data-anchor-id="create-recipe-2">Create recipe</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>recipe_nausea <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Nausea <span class="sc">~</span>., <span class="at">data =</span> train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This sets the stage to predict nausea outcomes based on all other variables in the data set (predictors)</p>
+</section>
+<section id="combine-model-and-recipe-to-create-workflow-1" class="level3">
+<h3 class="anchored" data-anchor-id="combine-model-and-recipe-to-create-workflow-1">Combine model and recipe to create workflow</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nausea_log_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(log_mod) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(recipe_nausea)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="model-using-workflow-and-training-data" class="level3">
+<h3 class="anchored" data-anchor-id="model-using-workflow-and-training-data">Model using workflow and training data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>nausea_fit <span class="ot">&lt;-</span> nausea_log_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> train_data)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>nausea_fit <span class="sc">%&gt;%</span> <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38 × 5
+   term                 estimate std.error statistic p.value
+   &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)            1.48       9.16     0.161  0.872  
+ 2 SwollenLymphNodesYes  -0.692      0.237   -2.92   0.00352
+ 3 ChestCongestionYes     0.342      0.256    1.34   0.181  
+ 4 ChillsSweatsYes        0.0154     0.348    0.0443 0.965  
+ 5 NasalCongestionYes     0.513      0.305    1.68   0.0926 
+ 6 CoughYNYes            -0.0462     0.638   -0.0724 0.942  
+ 7 SneezeYes              0.243      0.254    0.959  0.338  
+ 8 FatigueYes             0.180      0.423    0.426  0.670  
+ 9 SubjectiveFeverYes     0.500      0.276    1.81   0.0705 
+10 HeadacheYes            0.419      0.334    1.25   0.210  
+# … with 28 more rows</code></pre>
+</div>
+</div>
+<p>Now we have trained the model, so let’s use the test data to see how well this model predicts nausea.</p>
+</section>
+<section id="use-model-on-test-data" class="level3">
+<h3 class="anchored" data-anchor-id="use-model-on-test-data">Use model on test data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(nausea_fit, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+prediction from a rank-deficient fit may be misleading</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 183 × 1
+   .pred_class
+   &lt;fct&gt;      
+ 1 No         
+ 2 No         
+ 3 No         
+ 4 No         
+ 5 No         
+ 6 No         
+ 7 No         
+ 8 No         
+ 9 No         
+10 Yes        
+# … with 173 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="use-roc-curve-to-assess-model-fit" class="level3">
+<h3 class="anchored" data-anchor-id="use-roc-curve-to-assess-model-fit">Use ROC curve to assess model fit</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>nausea_aug_test <span class="ot">&lt;-</span> <span class="fu">augment</span>(nausea_fit, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+prediction from a rank-deficient fit may be misleading
+
+Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+prediction from a rank-deficient fit may be misleading</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>nausea_aug_test <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(<span class="at">truth =</span> Nausea, .pred_Yes, <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+dplyr 1.1.0.
+ℹ Please use `reframe()` instead.
+ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+  always returns an ungrouped data frame and adjust accordingly.
+ℹ The deprecated feature was likely used in the yardstick package.
+  Please report the issue at &lt;]8;;https://github.com/tidymodels/yardstick/issueshttps://github.com/tidymodels/yardstick/issues]8;;&gt;.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="fitting_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>nausea_aug_test <span class="sc">%&gt;%</span> <span class="fu">roc_auc</span>(<span class="at">truth =</span> Nausea, .pred_Yes, </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">event_level =</span> <span class="st">"second"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc binary         0.641</code></pre>
+</div>
+</div>
+<p>I think what this shows is that the model is a pretty decent predictor of nausea, however, it is more sensitive than it is specific, meaning that it is good at indicating true positives but not as good at indicating true negatives.</p>
+</section>
+</section>
+<section id="create-model-to-predict-nausea-based-on-runny-nose-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="create-model-to-predict-nausea-based-on-runny-nose-logistic-regression">Create model to predict nausea based on runny nose (logistic regression)</h2>
+<section id="create-recipe-3" class="level3">
+<h3 class="anchored" data-anchor-id="create-recipe-3">Create recipe</h3>
+<p>Since we have already split the data and defined the appropriate model, we will just need to create a new recipe that predicts nausea based on runny nose.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>recipe_nausea2 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Nausea <span class="sc">~</span> RunnyNose, <span class="at">data =</span> train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="combine-model-and-recipe-to-create-workflow-2" class="level3">
+<h3 class="anchored" data-anchor-id="combine-model-and-recipe-to-create-workflow-2">Combine model and recipe to create workflow</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>nausea_log_wf2 <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(log_mod) <span class="sc">%&gt;%</span> </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(recipe_nausea2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="model-using-workflow-and-training-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-using-workflow-and-training-data-1">Model using workflow and training data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>nausea_fit2 <span class="ot">&lt;-</span> nausea_log_wf2 <span class="sc">%&gt;%</span> </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> train_data)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>nausea_fit2 <span class="sc">%&gt;%</span> <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term         estimate std.error statistic  p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)   -0.643      0.173    -3.72  0.000202
+2 RunnyNoseYes   0.0606     0.202     0.300 0.764   </code></pre>
+</div>
+</div>
+</section>
+<section id="use-model-on-test-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="use-model-on-test-data-1">Use model on test data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(nausea_fit2, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 183 × 1
+   .pred_class
+   &lt;fct&gt;      
+ 1 No         
+ 2 No         
+ 3 No         
+ 4 No         
+ 5 No         
+ 6 No         
+ 7 No         
+ 8 No         
+ 9 No         
+10 No         
+# … with 173 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="use-roc-curve-to-assess-model-fit-1" class="level3">
+<h3 class="anchored" data-anchor-id="use-roc-curve-to-assess-model-fit-1">Use ROC curve to assess model fit</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>nausea_aug_test2 <span class="ot">&lt;-</span> <span class="fu">augment</span>(nausea_fit2, test_data)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>nausea_aug_test2 <span class="sc">%&gt;%</span> </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(<span class="at">truth =</span> Nausea, .pred_Yes, <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="fitting_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>nausea_aug_test2 <span class="sc">%&gt;%</span> <span class="fu">roc_auc</span>(<span class="at">truth =</span> Nausea, .pred_Yes, </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">event_level =</span> <span class="st">"second"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc binary           0.5</code></pre>
+</div>
+</div>
 
 
 </section>

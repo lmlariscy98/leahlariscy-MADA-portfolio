@@ -28,8 +28,7 @@ website:
             href: ./fluanalysis/code/fitting.qmd
     right:
       - icon: github 
-        href: https://github.com/lmlariscy98/leahlariscy-MADA-portfolio        
-
+        href: https://github.com/lmlariscy98/leahlariscy-MADA-portfolio
 format:
   html:
     theme: solar
