@@ -109,9 +109,10 @@ final_bcc %>%
 
 ```
 
-From the graph rendered above, it seems as though ***Salmonella*** comprises the majority of reported cases for most states. 
+From the graph rendered above, it seems as though ***Salmonella*** comprises the majority of reported cases for most states.
 
 ## Visualizing Outbreak by State and Pathogen (2017-2022) in two ways...
+
 ```{r}
 theme_set(theme_bw())  
 
@@ -140,11 +141,13 @@ bc %>%
        title = "Pathogen Associated with an Outbreak by State (2017-2022)") +
   theme(plot.title = element_text(hjust = 0.6))
 ```
+
 ***Salmonella*** and ***Ecoli*** look to be the pathogens that are associated with the largest number of outbreaks among these four states.
 
 ### Pathogen Source by State
 
 Have you ever wondered what laboratories isolate pathogens from? Let's explore the possibilities below!
+
 ```{r}
 #Plotting 
 ggplot(bc, aes(state, pathogen, colour = source)) + geom_count(show.legend=T) +
@@ -152,7 +155,9 @@ ggplot(bc, aes(state, pathogen, colour = source)) + geom_count(show.legend=T) +
        x="State", 
        title="Pathogen Source by State (2017-2022)")
 ```
+
 From the visualization above, it looks like most labs are able to isolate pathogens from **stool** samples, however, there may be variation by state!
 
 ## Potentially helpful resource
+
 [This website](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#Counts%20Chart) seems to be a helpful resource for data visualization. I found some interesting visualizations and hope to practice utilizing several.

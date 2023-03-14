@@ -8,7 +8,15 @@ website:
     left:
       - text: "About Me"
         href: ./aboutme.html
-      - text: "Projects"
+      - text: "Flu Analysis"
+        menu:
+          - text: "Data Wrangling"
+            href: ./fluanalysis/code/wrangling.html
+          - text: "Data Exploration"
+            href: ./fluanalysis/code/exploration.html
+          - text: "Model Fitting"
+            href: ./fluanalysis/code/fitting.html
+      - text: "Other Projects"
         menu:
           - text: "R Coding Exercise"
             href: ./coding_exercise.html
@@ -18,14 +26,6 @@ website:
             href: ./tidytuesday_exercise.html
           - text: "Data Analysis Exercise"
             href: ./data_analysis_exercise.html
-      - text: "Flu Analysis"
-        menu:
-          - text: "Data Wrangling"
-            href: ./fluanalysis/code/wrangling.html
-          - text: "Data Exploration"
-            href: ./fluanalysis/code/exploration.html
-          - text: "Model Fitting"
-            href: ./fluanalysis/code/fitting.html
     right:
       - icon: github 
         href: https://github.com/lmlariscy98/leahlariscy-MADA-portfolio

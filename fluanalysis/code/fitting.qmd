@@ -82,6 +82,8 @@ bodytemp_aug_test %>% select(BodyTemp, .pred)
 
 ### Use RMSE to evaluate model
 
+**Info on RMSE or Root Mean Squared Error can be found [here](https://help.sap.com/docs/SAP_PREDICTIVE_ANALYTICS/41d1a6d4e7574e32b815f1cc87c00f42/5e5198fd4afe4ae5b48fefe0d3161810.html).**
+
 ```{r}
 bodytemp_aug_test %>% 
   rmse(truth = BodyTemp, .pred)
@@ -193,6 +195,8 @@ predict(nausea_fit, test_data)
 ```
 
 ### Use ROC curve to assess model fit
+
+**Info on ROC curves or Receiver Operating Characteristic can be found [here](https://help.sap.com/docs/SAP_PREDICTIVE_ANALYTICS/41d1a6d4e7574e32b815f1cc87c00f42/ff2831b91e3640e7903581a53f2490eb.html).**
 
 ```{r}
 nausea_aug_test <- augment(nausea_fit, test_data)
