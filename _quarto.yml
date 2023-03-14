@@ -21,11 +21,11 @@ website:
       - text: "Flu Analysis"
         menu: 
           - text: "Data Wrangling"
-            href: ./fluanalysis/code/wrangling.qmd
+            href: ./fluanalysis/code/wrangling.html
           - text: "Data Exploration"
-            href: ./fluanalysis/code/exploration.qmd
+            href: ./fluanalysis/code/exploration.html
           - text: "Model Fitting"
-            href: ./fluanalysis/code/fitting.qmd
+            href: ./fluanalysis/code/fitting.html
     right:
       - icon: github 
         href: https://github.com/lmlariscy98/leahlariscy-MADA-portfolio
