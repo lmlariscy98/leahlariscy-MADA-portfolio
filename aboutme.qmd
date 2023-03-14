@@ -7,7 +7,7 @@ output:
 
 ## Background
 
-My name is Leah Lariscy and I have a BS in Environmental Health and am now a first year PhD student in Environmental Health. My advisors are Travis Glenn and Erin Lipp and my research involves molecular detection in wastewater, mainly viral pathogens such as SARS-CoV-2, Mpox, and RSV. I also have some experience in many microbiology techniques, as well as some bioinformatics.
+My name is Leah Lariscy and I have a BS in Environmental Health and am now a first year PhD student in Environmental Health. My advisers are Travis Glenn and Erin Lipp and my research involves molecular detection in wastewater, mainly viral pathogens such as SARS-CoV-2, Mpox, and RSV. I also have some experience in many microbiology techniques, as well as some bioinformatics.
 
 ## Experience
 
