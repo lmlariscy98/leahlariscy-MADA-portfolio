@@ -313,5 +313,26 @@
     "title": "R Coding Exercise",
     "section": "Linear modeling",
     "text": "Linear modeling\nI would like to consider a linear model predicting fertility from GDP and infant mortality for African countries. The glm() function will be used to create a linear model for this scenario. The tidy() function from the broom package produces the summary of the model.\n\nfit3 <- glm(fertility ~ gdp + infant_mortality, data = africadata)\n\ntidy(fit3)\n\n# A tibble: 3 × 5\n  term              estimate std.error statistic   p.value\n  <chr>                <dbl>     <dbl>     <dbl>     <dbl>\n1 (Intercept)       3.91e+ 0  5.49e- 2      71.2 0        \n2 gdp              -1.41e-11  9.62e-13     -14.7 1.45e- 46\n3 infant_mortality  2.18e- 2  4.99e- 4      43.6 4.58e-300\n\n\nBoth GDP and infant mortality has a statistically significant affect on fertility (p-values > 0.001). GDP has an extremely small negative effect on fertility (slope = -1.411e-11), and infant mortality has a small positive effect (slope = 2.176e-2)."
+  },
+  {
+    "objectID": "index.html#please-use-the-menu-bar-above-to-look-at-exercises-i-have-completed-for-this-course",
+    "href": "index.html#please-use-the-menu-bar-above-to-look-at-exercises-i-have-completed-for-this-course",
+    "title": "Leah Lariscy’s Data Analysis Portfolio",
+    "section": "Please use the Menu Bar above to look at exercises I have completed for this course!",
+    "text": "Please use the Menu Bar above to look at exercises I have completed for this course!"
+  },
+  {
+    "objectID": "index.html#please-use-the-menu-bar-above-to-look-at-exercises-i-have-completed",
+    "href": "index.html#please-use-the-menu-bar-above-to-look-at-exercises-i-have-completed",
+    "title": "Leah Lariscy’s Data Analysis Portfolio",
+    "section": "Please use the Menu Bar above to look at exercises I have completed!",
+    "text": "Please use the Menu Bar above to look at exercises I have completed!"
+  },
+  {
+    "objectID": "index.html#please-use-the-menu-bar-above-to-read-about-me-and-look-at-exercises-i-have-completed",
+    "href": "index.html#please-use-the-menu-bar-above-to-read-about-me-and-look-at-exercises-i-have-completed",
+    "title": "Leah Lariscy’s Data Analysis Portfolio",
+    "section": "Please use the menu bar above to read about me and look at exercises I have completed!",
+    "text": "Please use the menu bar above to read about me and look at exercises I have completed!"
   }
 ]
