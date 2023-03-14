@@ -2,6 +2,10 @@
 title: "Flu Data Exploration"
 author: "Leah Lariscy"
 editor: visual
+format:
+  html:
+    toc: true
+    toc-depth: 3
 ---
 
 # Let's explore!

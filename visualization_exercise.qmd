@@ -1,13 +1,16 @@
 ---
 title: "Visualization Exercise"
-output:
-  html_document:
-    toc: FALSE
+author: "Leah Lariscy"
+editor: visual
+format:
+  html:
+    toc: true
+    toc-depth: 3
 ---
 
-# Data is from the FiveThirtyEight article [Inside The Political Donation History Of Wealthy Sports Owners](https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/)
+# Political donation data from FiveThirtyEight
 
-## Here is their plot:
+Data is from the FiveThirtyEight article [Inside The Political Donation History Of Wealthy Sports Owners](https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/)
 
 ![](https://fivethirtyeight.com/wp-content/uploads/2020/10/espn.DONATIONS.1028-2-1.png?w=1150)
 
@@ -27,7 +30,9 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8)
 ```
 
 ## Load data
-You will see that the data set includes the following variables -> `Owner`,`Team`,`League`, `Recipient`, `Amount`, `Election Year`, and `Party`
+
+You will see that the data set includes the following variables -\> `Owner`,`Team`,`League`, `Recipient`, `Amount`, `Election Year`, and `Party`
+
 ```{r}
 here()
 donation <- read_csv("data/sports-political-donations/sports-political-donations.csv")
@@ -35,19 +40,21 @@ skim(donation)
 ```
 
 ## Clean and wrangle data
-These are the following steps I took to prepare the data. 
 
-1. Filter for rows containing only the 6 leagues, leaving out ones that were cross-listed among many leagues. This removed a large amount of the data, meaning that a majority of team owners own multiple teams across various leagues.
+These are the following steps I took to prepare the data.
 
-2. Filter for rows containing only democrat or republican, leaving out bipartisan donations. I would have left these in but I had issuing renaming all variations to just `bipartisan`.
+1.  Filter for rows containing only the 6 leagues, leaving out ones that were cross-listed among many leagues. This removed a large amount of the data, meaning that a majority of team owners own multiple teams across various leagues.
 
-3. Parse the numerical values from `Amount` so it can then act as a numerical.
+2.  Filter for rows containing only democrat or republican, leaving out bipartisan donations. I would have left these in but I had issuing renaming all variations to just `bipartisan`.
 
-4. Group by `League`, `Election Year`, and `Party`
+3.  Parse the numerical values from `Amount` so it can then act as a numerical.
 
-5. Sum the `Amount` of each group to find the total dollar amount of donations from each of the 6 leagues to each of the two parties in a given year. 
+4.  Group by `League`, `Election Year`, and `Party`
 
-6. Ungroup. Data is now ready to plot.
+5.  Sum the `Amount` of each group to find the total dollar amount of donations from each of the 6 leagues to each of the two parties in a given year.
+
+6.  Ungroup. Data is now ready to plot.
+
 ```{r}
 donation_clean <- donation %>% 
   filter(League ==c("MLB","NASCAR","NBA","NFL","NHL","WNBA")) %>% 
@@ -95,6 +102,6 @@ ggplot(aes(fill=Party, y=party_donations, x=`Election Year`)) +
   donation_plot
 ```
 
-You will notice that the proportions on my plot are slightly different from the original. This is because I excluded all cross-listed league affiliations (for the sake of time, but in the future I would like to be able to parse these out into individual observations). I also excluded bipartisan donations and NAs because I was having trouble renaming these all to `bipartisan`. I would also like to work on this, as I would like to be able to re-create this chart more accurately. 
+You will notice that the proportions on my plot are slightly different from the original. This is because I excluded all cross-listed league affiliations (for the sake of time, but in the future I would like to be able to parse these out into individual observations). I also excluded bipartisan donations and NAs because I was having trouble renaming these all to `bipartisan`. I would also like to work on this, as I would like to be able to re-create this chart more accurately.
 
-I also had some formatting issues that I couldn't quite work out on my own. For one, I could not figure out how to change the size of the facet labels. I also struggled to find a way to change the y-axis tick labels to be percentages like on the original. 
+I also had some formatting issues that I couldn't quite work out on my own. For one, I could not figure out how to change the size of the facet labels. I also struggled to find a way to change the y-axis tick labels to be percentages like on the original.

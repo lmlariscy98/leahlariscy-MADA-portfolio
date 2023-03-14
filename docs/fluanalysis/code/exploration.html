@@ -127,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,29 +148,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Projects</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
-        <li>
-    <a class="dropdown-item" href="../.././coding_exercise.html">
- <span class="dropdown-text">R Coding Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../.././visualization_exercise.html">
- <span class="dropdown-text">Visualization Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../.././tidytuesday_exercise.html">
- <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../.././data_analysis_exercise.html">
- <span class="dropdown-text">Data Analysis Exercise</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Flu Analysis</span>
     </a>
@@ -186,6 +163,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li>
     <a class="dropdown-item" href="../.././fluanalysis/code/fitting.html">
  <span class="dropdown-text">Model Fitting</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-other-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Other Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-other-projects">    
+        <li>
+    <a class="dropdown-item" href="../.././coding_exercise.html">
+ <span class="dropdown-text">R Coding Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././visualization_exercise.html">
+ <span class="dropdown-text">Visualization Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././tidytuesday_exercise.html">
+ <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././data_analysis_exercise.html">
+ <span class="dropdown-text">Data Analysis Exercise</span></a>
   </li>  
     </ul>
   </li>
@@ -206,7 +206,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lets-explore" id="toc-lets-explore" class="nav-link active" data-scroll-target="#lets-explore">Let’s explore!</a>
+  <ul class="collapse">
+  <li><a href="#load-libraries-first" id="toc-load-libraries-first" class="nav-link" data-scroll-target="#load-libraries-first">Load libraries first</a></li>
+  <li><a href="#load-rds-file-of-clean-symptom-data" id="toc-load-rds-file-of-clean-symptom-data" class="nav-link" data-scroll-target="#load-rds-file-of-clean-symptom-data">Load RDS file of clean symptom data</a></li>
+  <li><a href="#lets-look-at-the-data-to-be-sure-it-loaded-correctly" id="toc-lets-look-at-the-data-to-be-sure-it-loaded-correctly" class="nav-link" data-scroll-target="#lets-look-at-the-data-to-be-sure-it-loaded-correctly">Lets look at the data to be sure it loaded correctly</a></li>
+  <li><a href="#lets-explore-the-important-variables" id="toc-lets-explore-the-important-variables" class="nav-link" data-scroll-target="#lets-explore-the-important-variables">Lets explore the important variables</a>
+  <ul class="collapse">
+  <li><a href="#look-at-summary-statistics-of-all-variables" id="toc-look-at-summary-statistics-of-all-variables" class="nav-link" data-scroll-target="#look-at-summary-statistics-of-all-variables">Look at summary statistics of all variables</a></li>
+  <li><a href="#histogram-of-bodytemp" id="toc-histogram-of-bodytemp" class="nav-link" data-scroll-target="#histogram-of-bodytemp">Histogram of <code>BodyTemp</code></a></li>
+  <li><a href="#boxplot-of-body-temps-in-regards-to-weakness-levels" id="toc-boxplot-of-body-temps-in-regards-to-weakness-levels" class="nav-link" data-scroll-target="#boxplot-of-body-temps-in-regards-to-weakness-levels">Boxplot of body temps in regards to weakness levels</a></li>
+  <li><a href="#boxplot-of-body-temp-in-regards-to-fatigue-presenceabsence" id="toc-boxplot-of-body-temp-in-regards-to-fatigue-presenceabsence" class="nav-link" data-scroll-target="#boxplot-of-body-temp-in-regards-to-fatigue-presenceabsence">Boxplot of body temp in regards to fatigue presence/absence</a></li>
+  <li><a href="#boxplot-of-body-temp-in-regards-to-headache-presenceabsence" id="toc-boxplot-of-body-temp-in-regards-to-headache-presenceabsence" class="nav-link" data-scroll-target="#boxplot-of-body-temp-in-regards-to-headache-presenceabsence">Boxplot of body temp in regards to headache presence/absence</a></li>
+  <li><a href="#counts-of-weakness-presenceabsence-and-nausea-presenceabsence" id="toc-counts-of-weakness-presenceabsence-and-nausea-presenceabsence" class="nav-link" data-scroll-target="#counts-of-weakness-presenceabsence-and-nausea-presenceabsence">Counts of Weakness presence/absence and Nausea presence/absence</a></li>
+  <li><a href="#counts-of-fatigue-presenceabsence-and-nausea-presenceabsence" id="toc-counts-of-fatigue-presenceabsence-and-nausea-presenceabsence" class="nav-link" data-scroll-target="#counts-of-fatigue-presenceabsence-and-nausea-presenceabsence">Counts of Fatigue presence/absence and Nausea presence/absence</a></li>
+  <li><a href="#counts-of-headache-presenceabsence-and-nausea-presenceabsence" id="toc-counts-of-headache-presenceabsence-and-nausea-presenceabsence" class="nav-link" data-scroll-target="#counts-of-headache-presenceabsence-and-nausea-presenceabsence">Counts of Headache presence/absence and Nausea presence/absence</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 

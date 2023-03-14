@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Leah Lariscy">
 
 <title>My Data Analysis Portfolio - R Coding Exercise</title>
 <style>
@@ -126,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -147,29 +148,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Projects</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
-        <li>
-    <a class="dropdown-item" href="././coding_exercise.html">
- <span class="dropdown-text">R Coding Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="././visualization_exercise.html">
- <span class="dropdown-text">Visualization Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="././tidytuesday_exercise.html">
- <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="././data_analysis_exercise.html">
- <span class="dropdown-text">Data Analysis Exercise</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Flu Analysis</span>
     </a>
@@ -185,6 +163,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li>
     <a class="dropdown-item" href="././fluanalysis/code/fitting.html">
  <span class="dropdown-text">Model Fitting</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-other-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Other Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-other-projects">    
+        <li>
+    <a class="dropdown-item" href="././coding_exercise.html">
+ <span class="dropdown-text">R Coding Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././visualization_exercise.html">
+ <span class="dropdown-text">Visualization Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././tidytuesday_exercise.html">
+ <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././data_analysis_exercise.html">
+ <span class="dropdown-text">Data Analysis Exercise</span></a>
   </li>  
     </ul>
   </li>
@@ -205,7 +206,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-section-added-by-leah-lariscy" id="toc-this-section-added-by-leah-lariscy" class="nav-link active" data-scroll-target="#this-section-added-by-leah-lariscy">This section added by Leah Lariscy</a>
+  <ul class="collapse">
+  <li><a href="#load-required-packages-and-data-here" id="toc-load-required-packages-and-data-here" class="nav-link" data-scroll-target="#load-required-packages-and-data-here">Load required packages and data here</a></li>
+  <li><a href="#subset-the-data-only-keeping-data-from-africa" id="toc-subset-the-data-only-keeping-data-from-africa" class="nav-link" data-scroll-target="#subset-the-data-only-keeping-data-from-africa">Subset the data, only keeping data from Africa</a></li>
+  <li><a href="#plot-the-data-here" id="toc-plot-the-data-here" class="nav-link" data-scroll-target="#plot-the-data-here">Plot the data here</a></li>
+  </ul></li>
+  <li><a href="#this-section-added-by-sara-benist" id="toc-this-section-added-by-sara-benist" class="nav-link" data-scroll-target="#this-section-added-by-sara-benist">This section added by Sara Benist</a>
+  <ul class="collapse">
+  <li><a href="#load-the-packages" id="toc-load-the-packages" class="nav-link" data-scroll-target="#load-the-packages">Load the packages</a></li>
+  <li><a href="#subsetting-data" id="toc-subsetting-data" class="nav-link" data-scroll-target="#subsetting-data">Subsetting data</a></li>
+  <li><a href="#plotting-the-data" id="toc-plotting-the-data" class="nav-link" data-scroll-target="#plotting-the-data">Plotting the data</a></li>
+  <li><a href="#linear-modeling" id="toc-linear-modeling" class="nav-link" data-scroll-target="#linear-modeling">Linear modeling</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -218,6 +239,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leah Lariscy </p>
+          </div>
+  </div>
     
   
     
@@ -226,21 +253,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Load required packages and data here</p>
+<section id="this-section-added-by-leah-lariscy" class="level1">
+<h1>This section added by Leah Lariscy</h1>
+<section id="load-required-packages-and-data-here" class="level2">
+<h2 class="anchored" data-anchor-id="load-required-packages-and-data-here">Load required packages and data here</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the dslabs package</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("dslabs")</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0     ✔ purrr   1.0.1
-✔ tibble  3.1.8     ✔ dplyr   1.0.9
-✔ tidyr   1.2.0     ✔ stringr 1.4.1
-✔ readr   2.1.2     ✔ forcats 0.5.2
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.0     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.1     ✔ tibble    3.1.8
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -300,7 +332,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] "data.frame"</code></pre>
 </div>
 </div>
-<p>Subset the data, only keeping data from Africa</p>
+</section>
+<section id="subset-the-data-only-keeping-data-from-africa" class="level2">
+<h2 class="anchored" data-anchor-id="subset-the-data-only-keeping-data-from-africa">Subset the data, only keeping data from Africa</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#subset the data so there is only data from the African continent in a new data frame</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>africadata <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Africa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -405,7 +439,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  NA's   :51                         </code></pre>
 </div>
 </div>
-<p>Plot the data here</p>
+</section>
+<section id="plot-the-data-here" class="level2">
+<h2 class="anchored" data-anchor-id="plot-the-data-here">Plot the data here</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot life expectancy as a function of infant mortality</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> africadata2) <span class="sc">+</span></span>
@@ -560,17 +596,21 @@ Multiple R-squared:  0.005176,  Adjusted R-squared:  -0.01513
 F-statistic: 0.2549 on 1 and 49 DF,  p-value: 0.6159</code></pre>
 </div>
 </div>
-<section id="this-section-added-by-sara-benist" class="level2">
-<h2 class="anchored" data-anchor-id="this-section-added-by-sara-benist">This section added by Sara Benist</h2>
-<p>###Load the packages</p>
+</section>
+</section>
+<section id="this-section-added-by-sara-benist" class="level1">
+<h1>This section added by Sara Benist</h1>
+<section id="load-the-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-packages">Load the packages</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="subsetting-data" class="level3">
-<h3 class="anchored" data-anchor-id="subsetting-data">Subsetting data</h3>
+</section>
+<section id="subsetting-data" class="level2">
+<h2 class="anchored" data-anchor-id="subsetting-data">Subsetting data</h2>
 <p>I want to continue to explore the data related to African countries, specifically how gdp and infant mortality relates to fertility.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#subset African countries</span></span>
@@ -583,8 +623,8 @@ F-statistic: 0.2549 on 1 and 49 DF,  p-value: 0.6159</code></pre>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>fertmort <span class="ot">&lt;-</span> africadata <span class="sc">%&gt;%</span> <span class="fu">select</span>(fertility, infant_mortality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plotting-the-data" class="level3">
-<h3 class="anchored" data-anchor-id="plotting-the-data">Plotting the data</h3>
+<section id="plotting-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-the-data">Plotting the data</h2>
 <p>Next, I wanted to look at the plots for the two new datasets. For both <code>gdpfert</code> and <code>fertmort</code>, I plotted the data points using geom_point() and geom_smooth() to produce a scatter plot with a smoothed line over the data. The smoothed line helps visualize patterns in the plot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#produce scatter plot with smooth line; x = gdp, y = fertility</span></span>
@@ -627,8 +667,8 @@ F-statistic: 0.2549 on 1 and 49 DF,  p-value: 0.6159</code></pre>
 </div>
 <p>Here, fertility and infant mortality are positively correlated until approximately 7 children per woman or 125 infants deaths per 1000.</p>
 </section>
-<section id="linear-modeling" class="level3">
-<h3 class="anchored" data-anchor-id="linear-modeling">Linear modeling</h3>
+<section id="linear-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="linear-modeling">Linear modeling</h2>
 <p>I would like to consider a linear model predicting fertility from GDP and infant mortality for African countries. The glm() function will be used to create a linear model for this scenario. The tidy() function from the broom package produces the summary of the model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(fertility <span class="sc">~</span> gdp <span class="sc">+</span> infant_mortality, <span class="at">data =</span> africadata)</span>

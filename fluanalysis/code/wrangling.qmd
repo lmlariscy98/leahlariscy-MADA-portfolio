@@ -2,6 +2,10 @@
 title: "Flu Data Wrangling"
 author: "Leah Lariscy"
 editor: visual
+format:
+  html:
+    toc: true
+    toc-depth: 3
 ---
 
 # Wrangling time..

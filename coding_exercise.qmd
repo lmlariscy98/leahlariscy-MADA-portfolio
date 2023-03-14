@@ -1,42 +1,56 @@
 ---
 title: "R Coding Exercise"
-output:
-  html_document:
-    toc: FALSE
+author: "Leah Lariscy"
+editor: visual
+format:
+  html:
+    toc: true
+    toc-depth: 3
 ---
-Load required packages and data here
+
+# This section added by Leah Lariscy
+
+## Load required packages and data here
+
 ```{r}
 #load the dslabs package
 #install.packages("dslabs")
 library(dslabs)
 library(tidyverse)
 ```
+
 ```{r}
 #look at help page for gapminder data
 help("gapminder")
 ```
+
 ```{r}
 #look at the structure of the data
 str(gapminder)
 ```
+
 ```{r}
 #look at a summary of the data
 summary(gapminder)
 ```
+
 ```{r}
 #check what type of object the data is
 class(gapminder)
 ```
 
-Subset the data, only keeping data from Africa
+## Subset the data, only keeping data from Africa
+
 ```{r}
 #subset the data so there is only data from the African continent in a new data frame
 africadata <- gapminder %>% filter(continent == "Africa")
 ```
+
 ```{r}
 #look at the structure of the data
 str(africadata)
 ```
+
 ```{r}
 #look at a summary of the data
 summary(africadata)
@@ -46,10 +60,12 @@ summary(africadata)
 #further subset the African data by creating a data frame with only infant_mortality and Life_expectancy
 africadata2 <- africadata %>% select(c(infant_mortality, life_expectancy))
 ```
+
 ```{r}
 #look at the structure of the data
 str(africadata2)
 ```
+
 ```{r}
 #look at a summary of the data
 summary(africadata2)
@@ -59,21 +75,25 @@ summary(africadata2)
 #subset the African data again, but this time including only population and life_expectancy
 africadata3 <- africadata %>% select(c(population, life_expectancy))
 ```
+
 ```{r}
 #look at the structure of the data
 str(africadata3)
 ```
+
 ```{r}
 #look at a summary of the data
 summary(africadata3)
 ```
 
-Plot the data here
+## Plot the data here
+
 ```{r}
 #Plot life expectancy as a function of infant mortality
 ggplot(data = africadata2) +
   geom_point(aes(x = infant_mortality, y = life_expectancy))
 ```
+
 ```{r}
 #Plot life expectancy as a function of log10(population)
 ggplot(data = africadata3) +
@@ -92,10 +112,12 @@ summary(africa_NAs)
 #Subset the African data to only include data from the year 2000
 africadata2000 <- africadata %>% filter(year == 2000)
 ```
+
 ```{r}
 #look at the structure of the data
 str(africadata2000)
 ```
+
 ```{r}
 #look at a summary of the data
 summary(africadata2000)
@@ -106,6 +128,7 @@ summary(africadata2000)
 ggplot(data = africadata2000) +
   geom_point(aes(x = infant_mortality, y = life_expectancy))
 ```
+
 ```{r}
 #Plot life expectancy as a function of log10(population)
 ggplot(data = africadata2000) +
@@ -118,6 +141,7 @@ ggplot(data = africadata2000) +
 fit1 <- lm(infant_mortality ~ life_expectancy, data = africadata2000)
 summary(fit1)
 ```
+
 ```{r}
 #Use a linear model, fit life expectancy as the outcome and population as the predictor
 #p-value is large, population size is unlikley to predict life expectancy
@@ -125,10 +149,10 @@ fit2 <- lm(population ~ life_expectancy, data = africadata2000)
 summary(fit2)
 ```
 
+# This section added by Sara Benist
 
-## This section added by Sara Benist
+## Load the packages
 
-###Load the packages
 ```{r}
 library(dslabs)
 library(tidyverse)
@@ -136,9 +160,10 @@ library(dplyr)
 library(broom)
 ```
 
-### Subsetting data
+## Subsetting data
 
-I want to continue to explore the data related to African countries, specifically how gdp and infant mortality relates to fertility. 
+I want to continue to explore the data related to African countries, specifically how gdp and infant mortality relates to fertility.
+
 ```{r}
 #subset African countries
 africadata <- filter(gapminder, continent == "Africa")
@@ -150,9 +175,10 @@ gdpfert <- africadata %>% select(gdp, fertility)
 fertmort <- africadata %>% select(fertility, infant_mortality)
 ```
 
-### Plotting the data
+## Plotting the data
 
 Next, I wanted to look at the plots for the two new datasets. For both `gdpfert` and `fertmort`, I plotted the data points using geom_point() and geom_smooth() to produce a scatter plot with a smoothed line over the data. The smoothed line helps visualize patterns in the plot.
+
 ```{r}
 #produce scatter plot with smooth line; x = gdp, y = fertility
 #x-axis log transformed for gdp data
@@ -161,7 +187,8 @@ ggplot(gdpfert, aes(gdp, fertility))+
   geom_smooth()+
   scale_x_continuous(trans = "log")
 ```
-We can see a distinct negative correlation with fertility after the GDP of a country reaches above approx. 9.7 billion dollars. Note that most African countries have a GDP between 485 million and $9.7 billion dollars where the line fluctuates around 6 children per woman. 
+
+We can see a distinct negative correlation with fertility after the GDP of a country reaches above approx. 9.7 billion dollars. Note that most African countries have a GDP between 485 million and \$9.7 billion dollars where the line fluctuates around 6 children per woman.
 
 ```{r}
 #produce scatter plot with smooth line; x = fertility, y = infant_mortality
@@ -169,14 +196,17 @@ ggplot(fertmort, aes(fertility, infant_mortality)) +
   geom_point()+
   geom_smooth()
 ```
-Here, fertility and infant mortality are positively correlated until approximately 7 children per woman or 125 infants deaths per 1000. 
 
-### Linear modeling
+Here, fertility and infant mortality are positively correlated until approximately 7 children per woman or 125 infants deaths per 1000.
+
+## Linear modeling
 
 I would like to consider a linear model predicting fertility from GDP and infant mortality for African countries. The glm() function will be used to create a linear model for this scenario. The tidy() function from the broom package produces the summary of the model.
+
 ```{r}
 fit3 <- glm(fertility ~ gdp + infant_mortality, data = africadata)
 
 tidy(fit3)
 ```
-Both GDP and infant mortality has a statistically significant affect on fertility (p-values > 0.001). GDP has an extremely small negative effect on fertility (slope = -1.411e-11), and infant mortality has a small positive effect (slope = 2.176e-2). 
+
+Both GDP and infant mortality has a statistically significant affect on fertility (p-values \> 0.001). GDP has an extremely small negative effect on fertility (slope = -1.411e-11), and infant mortality has a small positive effect (slope = 2.176e-2).

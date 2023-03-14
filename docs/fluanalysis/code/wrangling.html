@@ -127,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,29 +148,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Projects</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
-        <li>
-    <a class="dropdown-item" href="../.././coding_exercise.html">
- <span class="dropdown-text">R Coding Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../.././visualization_exercise.html">
- <span class="dropdown-text">Visualization Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../.././tidytuesday_exercise.html">
- <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../.././data_analysis_exercise.html">
- <span class="dropdown-text">Data Analysis Exercise</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Flu Analysis</span>
     </a>
@@ -186,6 +163,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li>
     <a class="dropdown-item" href="../.././fluanalysis/code/fitting.html">
  <span class="dropdown-text">Model Fitting</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-other-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Other Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-other-projects">    
+        <li>
+    <a class="dropdown-item" href="../.././coding_exercise.html">
+ <span class="dropdown-text">R Coding Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././visualization_exercise.html">
+ <span class="dropdown-text">Visualization Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././tidytuesday_exercise.html">
+ <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././data_analysis_exercise.html">
+ <span class="dropdown-text">Data Analysis Exercise</span></a>
   </li>  
     </ul>
   </li>
@@ -206,7 +206,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#wrangling-time.." id="toc-wrangling-time.." class="nav-link active" data-scroll-target="#wrangling-time..">Wrangling time..</a>
+  <ul class="collapse">
+  <li><a href="#load-libraries" id="toc-load-libraries" class="nav-link" data-scroll-target="#load-libraries">Load libraries</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
+  <li><a href="#look-at-data" id="toc-look-at-data" class="nav-link" data-scroll-target="#look-at-data">Look at data</a></li>
+  <li><a href="#remove-unnecessary-variables" id="toc-remove-unnecessary-variables" class="nav-link" data-scroll-target="#remove-unnecessary-variables">Remove unnecessary variables</a></li>
+  <li><a href="#remove-nas" id="toc-remove-nas" class="nav-link" data-scroll-target="#remove-nas">Remove NAs</a></li>
+  <li><a href="#cleaning-is-complete-save-as-rds-file" id="toc-cleaning-is-complete-save-as-rds-file" class="nav-link" data-scroll-target="#cleaning-is-complete-save-as-rds-file">Cleaning is complete, save as RDS file</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
