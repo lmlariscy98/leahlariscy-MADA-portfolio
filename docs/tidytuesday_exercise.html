@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Leah Lariscy">
 
 <title>My Data Analysis Portfolio - Tidy Tuesday Exercise</title>
 <style>
@@ -126,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -147,10 +148,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Projects</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Flu Analysis</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-flu-analysis">    
+        <li>
+    <a class="dropdown-item" href="././fluanalysis/code/wrangling.html">
+ <span class="dropdown-text">Data Wrangling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././fluanalysis/code/exploration.html">
+ <span class="dropdown-text">Data Exploration</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="././fluanalysis/code/fitting.html">
+ <span class="dropdown-text">Model Fitting</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-other-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Other Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-other-projects">    
         <li>
     <a class="dropdown-item" href="././coding_exercise.html">
  <span class="dropdown-text">R Coding Exercise</span></a>
@@ -166,25 +186,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li>
     <a class="dropdown-item" href="././data_analysis_exercise.html">
  <span class="dropdown-text">Data Analysis Exercise</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-flu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Flu Analysis</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-flu-analysis">    
-        <li>
-    <a class="dropdown-item" href="./fluanalysis/code/wrangling.html">
- <span class="dropdown-text">Data Wrangling</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./fluanalysis/code/exploration.html">
- <span class="dropdown-text">Data Exploration</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./fluanalysis/code/fitting.html">
- <span class="dropdown-text">Model Fitting</span></a>
   </li>  
     </ul>
   </li>
@@ -205,7 +206,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#this-is-the-tidytuesday-data-set-for-february-14th-2023.-data-consist-of-observations-pertaining-to-age-differences-in-couples-from-hollywood-movies-spanning-almost-an-entire-century." id="toc-this-is-the-tidytuesday-data-set-for-february-14th-2023.-data-consist-of-observations-pertaining-to-age-differences-in-couples-from-hollywood-movies-spanning-almost-an-entire-century." class="nav-link" data-scroll-target="#this-is-the-tidytuesday-data-set-for-february-14th-2023.-data-consist-of-observations-pertaining-to-age-differences-in-couples-from-hollywood-movies-spanning-almost-an-entire-century.">This is the TidyTuesday data set for February 14th, 2023. Data consist of observations pertaining to age differences in couples from Hollywood movies spanning almost an entire century.</a></li>
+  </ul></li>
+  <li><a href="#loading-packages-and-setting-figure-size" id="toc-loading-packages-and-setting-figure-size" class="nav-link" data-scroll-target="#loading-packages-and-setting-figure-size">Loading packages and setting figure size</a></li>
+  <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading">Data loading</a></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data exploration</a></li>
+  <li><a href="#ideas-for-analysis" id="toc-ideas-for-analysis" class="nav-link" data-scroll-target="#ideas-for-analysis">Ideas for analysis</a></li>
+  <li><a href="#mutate-data" id="toc-mutate-data" class="nav-link" data-scroll-target="#mutate-data">Mutate data</a>
+  <ul class="collapse">
+  <li><a href="#classifying-sexuality-of-each-couple" id="toc-classifying-sexuality-of-each-couple" class="nav-link" data-scroll-target="#classifying-sexuality-of-each-couple">Classifying sexuality of each couple</a></li>
+  <li><a href="#counting-how-many-times-each-gender-is-older-than-their-partner" id="toc-counting-how-many-times-each-gender-is-older-than-their-partner" class="nav-link" data-scroll-target="#counting-how-many-times-each-gender-is-older-than-their-partner">Counting how many times each gender is older than their partner</a></li>
+  </ul></li>
+  <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link" data-scroll-target="#data-visualization">Data visualization</a>
+  <ul class="collapse">
+  <li><a href="#difference-in-average-age-gaps-between-straight-gay-and-sapphic-couples" id="toc-difference-in-average-age-gaps-between-straight-gay-and-sapphic-couples" class="nav-link" data-scroll-target="#difference-in-average-age-gaps-between-straight-gay-and-sapphic-couples">Difference in average age gaps between straight, gay, and sapphic couples</a></li>
+  <li><a href="#number-of-same-movie-couples-throughout-the-years" id="toc-number-of-same-movie-couples-throughout-the-years" class="nav-link" data-scroll-target="#number-of-same-movie-couples-throughout-the-years">Number of same-movie couples throughout the years</a></li>
+  <li><a href="#difference-in-age-gaps-between-older-men-and-women" id="toc-difference-in-age-gaps-between-older-men-and-women" class="nav-link" data-scroll-target="#difference-in-age-gaps-between-older-men-and-women">Difference in age gaps between older men and women</a></li>
+  <li><a href="#difference-in-age-gaps-between-younger-men-and-women" id="toc-difference-in-age-gaps-between-younger-men-and-women" class="nav-link" data-scroll-target="#difference-in-age-gaps-between-younger-men-and-women">Difference in age gaps between younger men and women</a></li>
+  <li><a href="#linear-regression-of-age-vs-age-gap-between-men-and-women" id="toc-linear-regression-of-age-vs-age-gap-between-men-and-women" class="nav-link" data-scroll-target="#linear-regression-of-age-vs-age-gap-between-men-and-women">Linear regression of age vs age gap between men and women</a></li>
+  </ul></li>
+  <li><a href="#discussion-and-conclusions" id="toc-discussion-and-conclusions" class="nav-link" data-scroll-target="#discussion-and-conclusions">Discussion and conclusions</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -218,6 +248,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leah Lariscy </p>
+          </div>
+  </div>
     
   
     

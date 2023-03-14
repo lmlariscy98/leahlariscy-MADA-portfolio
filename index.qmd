@@ -1,11 +1,12 @@
 ---
-title: "Leah Lariscy's website and data analysis portfolio"
+title: "Leah Lariscy's data analysis portfolio for EPID 8060"
 output: 
   html_document:
     toc: FALSE
 ---
 
-# EPID 8060 (MADA)
+# EPID 8060 - Modern Applied Data Analysis
 
-### Please use the `Menu Bar` above to look at completed exercises.
+## Please use the Menu Bar above to look at exercises I have completed for this course!
 
+![](https://media0.giphy.com/media/UEGwYCVTBFa9tJEf66/giphy.gif){fig-align="center"}
