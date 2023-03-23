@@ -12,7 +12,7 @@ format:
 
 ## Load packages
 
-```{r}
+```{r, message=FALSE}
 library(tidymodels)
 library(tidyverse)
 library(here)
@@ -28,7 +28,7 @@ tibble(symptoms_fit) #quick look at data
 
 Data looks good to go
 
-## Create model to predict body temp based on all other variables (linear regression)
+## Model fitting 1: Predicting body temp using multivariate linear regression
 
 ### Split data into training set and testing set
 
@@ -80,7 +80,7 @@ tidy(bodytemp_fit) %>%
 
 ### Use model on test data to predict body temp outcome
 
-```{r}
+```{r, message=FALSE}
 bodytemp_aug_test <- augment(bodytemp_fit, test_data)
 bodytemp_aug_test %>% select(BodyTemp, .pred)
 ```
@@ -96,7 +96,9 @@ bodytemp_aug_test %>%
 
 I think this means that this model is estimating body temp incorrectly by this amount (in either direction)
 
-## Create model to predict body temp based on runny nose data (linear regression)
+## Model fitting 2: Predicting body temp using single-variate linear regression
+
+**Predictor of interest: Runny nose**
 
 ### Create recipe
 
@@ -154,7 +156,7 @@ bodytemp_aug_test2 %>%
 
 This is a similar output to what we saw in the first model, where estimation of body temp is slightly off by about 1 degree.
 
-## Create model to predict nausea based on all other variables (logistic regression)
+## Model fitting 3: Predicting nausea using multivariate logistic regression
 
 ### Define model
 
@@ -203,7 +205,7 @@ predict(nausea_fit, test_data)
 
 **Info on ROC curves or Receiver Operating Characteristic can be found [here](https://help.sap.com/docs/SAP_PREDICTIVE_ANALYTICS/41d1a6d4e7574e32b815f1cc87c00f42/ff2831b91e3640e7903581a53f2490eb.html).**
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 nausea_aug_test <- augment(nausea_fit, test_data)
 
 nausea_aug_test %>% 
@@ -216,7 +218,9 @@ nausea_aug_test %>% roc_auc(truth = Nausea, .pred_Yes,
 
 I think what this shows is that the model is a pretty decent predictor of nausea, however, it is more sensitive than it is specific, meaning that it is good at indicating true positives but not as good at indicating true negatives.
 
-## Create model to predict nausea based on runny nose (logistic regression)
+## Model fitting 4: Predicting nausea using single-variate logistic regression
+
+**Predictor of interest: Runny nose**
 
 ### Create recipe
 
@@ -252,7 +256,7 @@ predict(nausea_fit2, test_data)
 
 ### Use ROC curve to assess model fit
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 nausea_aug_test2 <- augment(nausea_fit2, test_data)
 
 nausea_aug_test2 %>% 

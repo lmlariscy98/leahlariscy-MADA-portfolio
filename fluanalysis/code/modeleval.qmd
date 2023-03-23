@@ -65,6 +65,7 @@ This will run a logistic regression on the flu data, predicting nausea using all
 ### Model fitting
 
 ```{r}
+set.seed(626)
 nausea_fit <- nausea_log_wf %>% 
   fit(data = train_data)
 
@@ -74,7 +75,7 @@ nausea_fit %>% extract_fit_parsnip() %>%
 
 ### Model assessment on training data: ROC curve
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 set.seed(626)
 nausea_aug_test <- augment(nausea_fit, train_data)
 
@@ -90,7 +91,7 @@ ROC-AUC is ok
 
 ### Model assessment on testing data: ROC curve
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 set.seed(626)
 nausea_fit_test <- nausea_log_wf %>% 
   fit(data = test_data)
@@ -124,6 +125,7 @@ nausea_log_wf2 <- workflow() %>%
 ### Model fitting
 
 ```{r}
+set.seed(626)
 nausea_fit2 <- nausea_log_wf2 %>% 
   fit(data = train_data)
 
@@ -133,7 +135,7 @@ nausea_fit2 %>% extract_fit_parsnip() %>%
 
 ### Model assessment on training data
 
-```{r}
+```{r, message=FALSE}
 set.seed(626)
 nausea_aug_test2 <- augment(nausea_fit2, train_data)
 
@@ -149,7 +151,7 @@ The ROC-AUC here is lower than Model 1
 
 ### Model assessment on testing data
 
-```{r}
+```{r, message=FALSE}
 set.seed(626)
 nausea_fit_test3 <- nausea_log_wf2 %>% 
   fit(data = test_data)
@@ -195,7 +197,7 @@ bt_lin_wf_all <- workflow() %>%
   add_recipe(recipe_bt_all) #model recipe
 ```
 
-This will run a linear regression on the flu data, predicting body temperature [using all other variables]{.ul} that we kept.
+This will run a linear regression on the flu data, predicting body temperature [using all other variables]{.underline} that we kept.
 
 ### Multivariate Model Fitting
 
@@ -207,7 +209,7 @@ bt_fit_all %>% extract_fit_parsnip() %>%
   tidy()
 ```
 
-### Model assessment on [training]{.ul} data: RMSE and Rsq
+### Model assessment on [training]{.underline} data: RMSE and Rsq
 
 ```{r}
 set.seed(626)
@@ -221,7 +223,7 @@ bt_metrics_all_train<- full_join(rmse1, rsq1)
 bt_metrics_all_train
 ```
 
-### Model assessment on [testing]{.ul} data: RMSE and Rsq
+### Model assessment on [testing]{.underline} data: RMSE and Rsq
 
 ```{r}
 set.seed(626)
@@ -265,7 +267,7 @@ bt_fit2 %>% extract_fit_parsnip() %>%
   tidy()
 ```
 
-### Model assessment on [training]{.ul} data
+### Model assessment on [training]{.underline} data
 
 ```{r}
 set.seed(626)
@@ -279,7 +281,7 @@ bt_metrics_uni_train<- full_join(rmse3, rsq3)
 bt_metrics_uni_train
 ```
 
-### Model assessment on [testing]{.ul} data
+### Model assessment on [testing]{.underline} data
 
 ```{r}
 set.seed(626)
