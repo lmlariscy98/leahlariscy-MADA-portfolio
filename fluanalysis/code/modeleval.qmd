@@ -168,7 +168,7 @@ nausea_aug_test3 %>% roc_auc(truth = Nausea, .pred_Yes,
 
 The testing data is no different. Runny nose is likely not a good predictor of nausea.
 
-# This Section added my Nathan Greenslit
+# This Section added by Nathan Greenslit
 
 ## Model 3 fitting: all variables to predict Body Temperature
 
@@ -179,7 +179,7 @@ lin_mod <- linear_reg() %>% #model type is linear regression
   set_engine("lm") #engine set to  linear model
 ```
 
-### Create recipe for Multivariate model 
+### Create recipe for Multivariate model
 
 ```{r}
 recipe_bt_all <- recipe(BodyTemp ~., data = train_data)
@@ -221,7 +221,7 @@ bt_metrics_all_train<- full_join(rmse1, rsq1)
 bt_metrics_all_train
 ```
 
-### Model assessment on [testing]{.ul} data:  RMSE and Rsq
+### Model assessment on [testing]{.ul} data: RMSE and Rsq
 
 ```{r}
 set.seed(626)
@@ -299,3 +299,5 @@ bt_metrics_uni_test
 ```
 
 Here, the training data outperformed the model data, but either way, it does not look like Runny nose is a good predictor of Body Temperature.
+
+Ultimately, our multivariate linear regression provided better performance assessments, so there is more exploring to be done!
