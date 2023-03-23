@@ -166,4 +166,138 @@ nausea_aug_test3 %>% roc_auc(truth = Nausea, .pred_Yes,
                             event_level = "second")
 ```
 
-The testing data is no different. Runny nose is likely not a good predictor of body temp.
+The testing data is no different. Runny nose is likely not a good predictor of nausea.
+
+# This Section added by Nathan Greenslit
+
+## Model 3 fitting: all variables to predict Body Temperature
+
+### Define the model: linear regression
+
+```{r}
+lin_mod <- linear_reg() %>% #model type is linear regression 
+  set_engine("lm") #engine set to  linear model
+```
+
+### Create recipe for Multivariate model
+
+```{r}
+recipe_bt_all <- recipe(BodyTemp ~., data = train_data)
+```
+
+Body Temp is the outcome and all other variables are predictors
+
+### Create workflow: combine model definition and recipe
+
+```{r}
+bt_lin_wf_all <- workflow() %>% 
+  add_model(lin_mod) %>% #model definition 
+  add_recipe(recipe_bt_all) #model recipe
+```
+
+This will run a linear regression on the flu data, predicting body temperature [using all other variables]{.ul} that we kept.
+
+### Multivariate Model Fitting
+
+```{r}
+bt_fit_all <- bt_lin_wf_all %>% 
+  fit(data = train_data)
+
+bt_fit_all %>% extract_fit_parsnip() %>% 
+  tidy()
+```
+
+### Model assessment on [training]{.ul} data: RMSE and Rsq
+
+```{r}
+set.seed(626)
+bt_aug_train_all <- augment(bt_fit_all, train_data) #pull in train data
+
+### RMSE and R2 to test model performance
+
+rmse1 <- bt_aug_train_all %>% rmse(truth = BodyTemp, .pred) #RMSE
+rsq1 <- bt_aug_train_all %>% rsq(truth = BodyTemp, .pred) #RSQ
+bt_metrics_all_train<- full_join(rmse1, rsq1)
+bt_metrics_all_train
+```
+
+### Model assessment on [testing]{.ul} data: RMSE and Rsq
+
+```{r}
+set.seed(626)
+bt_fit_test_all <- bt_lin_wf_all %>% 
+  fit(data = test_data) #pull in test data
+
+bt_fit_test_all %>% extract_fit_parsnip() %>% 
+  tidy()
+
+bt_aug_test_all <- augment(bt_fit_test_all, test_data)
+
+### RMSE and R2 to test model performance
+
+rmse2 <- bt_aug_test_all %>% rmse(truth = BodyTemp, .pred) #RMSE
+rsq2 <- bt_aug_test_all %>% rsq(truth = BodyTemp, .pred) #RSQ
+bt_metrics_all_test<- full_join(rmse2, rsq2)
+bt_metrics_all_test
+```
+
+Here it looks like the test data outperformed the model data (lower rmse and higher rsq).
+
+## Model 4 fitting: runny nose to predict Body Temperature
+
+### Create new recipe and workflow
+
+```{r}
+recipe_bt2 <- recipe(BodyTemp ~RunnyNose, data = train_data) #only include runny nose
+
+bt_lin_wf2 <- workflow() %>% 
+  add_model(lin_mod) %>% #model definition, use the same as Model 1
+  add_recipe(recipe_bt2) #model recipe
+```
+
+### Model fitting
+
+```{r}
+bt_fit2 <- bt_lin_wf2 %>% 
+  fit(data = train_data)
+
+bt_fit2 %>% extract_fit_parsnip() %>% 
+  tidy()
+```
+
+### Model assessment on [training]{.ul} data
+
+```{r}
+set.seed(626)
+bt_aug_train_uni <- augment(bt_fit2, train_data) #Train Data
+
+### RMSE and R2 to test model performance
+
+rmse3 <- bt_aug_train_uni %>% rmse(truth = BodyTemp, .pred) #RMSE
+rsq3 <- bt_aug_train_uni %>% rsq(truth = BodyTemp, .pred) #RSQ
+bt_metrics_uni_train<- full_join(rmse3, rsq3)
+bt_metrics_uni_train
+```
+
+### Model assessment on [testing]{.ul} data
+
+```{r}
+set.seed(626)
+bt_fit_test_uni <- bt_lin_wf2 %>% 
+  fit(data = test_data)
+
+bt_fit_test_uni %>% extract_fit_parsnip() %>% 
+  tidy()
+bt_aug_test_uni <- augment(bt_fit_test_uni, test_data) #Test Data
+
+### RMSE and R2 to test model performance
+
+rmse4 <- bt_aug_test_uni %>% rmse(truth = BodyTemp, .pred) #RMSE
+rsq4 <- bt_aug_test_uni %>% rsq(truth = BodyTemp, .pred) #RSQ
+bt_metrics_uni_test<- full_join(rmse4, rsq4)
+bt_metrics_uni_test
+```
+
+Here, the training data outperformed the model data, but either way, it does not look like Runny nose is a good predictor of Body Temperature.
+
+Ultimately, our multivariate linear regression provided better performance assessments, so there is more exploring to be done!
