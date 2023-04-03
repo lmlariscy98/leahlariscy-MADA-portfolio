@@ -35,10 +35,20 @@ After viewing the data, I see there are 63 variables and 735 observations. Most 
 ## Remove unnecessary variables
 
 ```{r}
-symptoms <- symptoms %>% select(9:40)
+symptoms <- symptoms %>% select(9:40) %>% select(!contains("YN", ignore.case = FALSE))
 ```
 
 Since all the variables of interest were all consecutive, I was able to easily select them based on their range of column number.
+
+I then selected for all variables that did not include "YN", removing duplicate variables.
+
+### Remove "near-zero" variables with less than 50 entries in one binary category
+
+```{r}
+summary(symptoms) #Vison and Hearing have the less than 50 yes
+
+symptoms <- symptoms %>% select(!c(Vision, Hearing))
+```
 
 ## Remove NAs
 

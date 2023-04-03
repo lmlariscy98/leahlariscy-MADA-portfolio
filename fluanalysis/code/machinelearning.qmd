@@ -1,0 +1,133 @@
+---
+title: "Machine Learning"
+author: "Leah Lariscy"
+editor: visual
+---
+
+## Load packages
+
+```{r, message=FALSE}
+library(here)
+library(tidyverse)
+library(rsample) #Data split
+library(tidymodels)
+library(rpart) #Model fit
+library(ranger) #Model fit
+library(glmnet) #Model fit
+library(rpart.plot)  #viz of decision tree
+library(vip) #viz of variable importance plots
+```
+
+## Load data
+
+```{r}
+data <- readRDS(here("fluanalysis/data/processed_data/symptoms_clean.RDS"))
+```
+
+## Data splitting
+
+```{r}
+set.seed(123)
+
+data_split <- initial_split(
+  data, prop = 7/10, #70:30 Split
+  strata = BodyTemp) #more balanced outcomes across train/test split
+  
+train <- training(data_split)
+test  <- testing(data_split)
+```
+
+## Cross-validation
+
+```{r}
+cv_train <- vfold_cv(train, v = 5, repeats = 5, strata = BodyTemp)
+
+cv_test <- vfold_cv(test, v = 5, repeats = 5, strata = BodyTemp)
+```
+
+5-fold cross-validation
+
+## Create recipe
+
+```{r}
+#Train Data
+rec_train <- 
+  recipe(BodyTemp ~ ., data = train) %>% #predict BodyTemp with all variables
+  step_dummy(all_nominal(), -all_outcomes()) %>% #pick nominal predictors
+  step_ordinalscore() %>%
+  step_zv(all_predictors()) 
+
+#Test Data
+rec_test <- 
+  recipe(BodyTemp ~ ., data = train) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_ordinalscore() %>%
+  step_zv(all_predictors()) 
+
+```
+
+1 outcome and 25 predictors
+
+## Evaluate Null Model Performance
+
+### Define model
+
+```{r}
+lm_mod <- linear_reg() %>% 
+  set_engine("lm") %>% 
+  set_mode("regression")
+```
+
+### Create recipes
+
+```{r}
+#Training data
+null_train_rec <- recipe(BodyTemp ~ 1, data = train)
+
+#Testing data
+null_test_rec <- recipe(BodyTemp ~ 1, data = test)
+```
+
+### Create workflows
+
+```{r}
+#training data
+null_train_wf <- workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(null_train_rec)
+
+#testing data
+null_test_wf <- workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(null_test_rec)
+```
+
+### Fit models
+
+```{r, message=FALSE}
+#training data
+null_train_fit <- fit_resamples(null_train_wf, resamples = cv_train)
+
+null_test_fit <- fit_resamples(null_test_wf, resamples = cv_test)
+
+```
+
+### Compare train/test metrics
+
+```{r}
+null_train_met <- collect_metrics(null_train_fit)
+null_train_met
+
+null_test_met <- collect_metrics(null_test_fit)
+null_test_met
+```
+
+Training RMSE: 1.21
+
+Testing RMSE: 1.16
+
+## Model fitting: Tree
+
+### 
+
+### 
