@@ -18,6 +18,8 @@ website:
             href: ./fluanalysis/code/fitting.html
           - text: "Model Evaluation"
             href: ./fluanalysis/code/modeleval.html
+          - text: "Machine Learning"
+            href: ./fluanalysis/code/machinelearning.html
       - text: "Other Projects"
         menu:
           - text: "R Coding Exercise"

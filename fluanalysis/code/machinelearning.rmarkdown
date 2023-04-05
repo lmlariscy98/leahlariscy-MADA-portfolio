@@ -7,7 +7,9 @@ format:
     toc-depth: 3
 ---
 
+
 ## Load packages
+
 
 ```{r}
 library(here)
@@ -22,13 +24,17 @@ library(vip) #viz of variable importance plots
 library(ggpmisc) #for adding linear regression to plots
 ```
 
+
 ## Load data
+
 
 ```{r}
 data <- readRDS(here("fluanalysis/data/processed_data/symptoms_clean.RDS"))
 ```
 
+
 ## Data splitting
+
 
 ```{r}
 set.seed(123)
@@ -41,9 +47,11 @@ train <- training(data_split)
 test  <- testing(data_split)
 ```
 
+
 # Null Model
 
 ### 5-Fold Cross Validation
+
 
 ```{r}
 fold_bt_train <- vfold_cv(train, v = 5, repeats = 5, strata = BodyTemp)
@@ -51,7 +59,9 @@ fold_bt_train <- vfold_cv(train, v = 5, repeats = 5, strata = BodyTemp)
 fold_bt_test <- vfold_cv(test, v = 5, repeats = 5, strata = BodyTemp)
 ```
 
+
 ### Create recipe
+
 
 ```{r}
 #Train Data
@@ -69,7 +79,9 @@ rec_test <-
   step_zv(all_predictors()) 
 ```
 
+
 ### Define Model
+
 
 ```{r}
 lm_mod <- linear_reg() %>% 
@@ -77,7 +89,9 @@ lm_mod <- linear_reg() %>%
   set_mode("regression")
 ```
 
+
 ### Create recipes
+
 
 ```{r}
 #Training data
@@ -87,7 +101,9 @@ bt_rec_train <- recipe(BodyTemp ~ 1, data = train)
 bt_rec_test <- recipe(BodyTemp ~ 1, data = test)
 ```
 
+
 ### Create workflows
+
 
 ```{r}
 #training data
@@ -101,7 +117,9 @@ null_test_wf <- workflow() %>%
   add_recipe(bt_rec_test)
 ```
 
+
 ### Fit models
+
 
 ```{r, message=FALSE}
 #training data
@@ -111,7 +129,9 @@ null_test_fit <- fit_resamples(null_test_wf, resamples = fold_bt_test)
 
 ```
 
+
 ### Compare train/test metrics
+
 
 ```{r}
 null_train_met <- collect_metrics(null_train_fit)
@@ -121,6 +141,7 @@ null_test_met <- collect_metrics(null_test_fit)
 null_test_met
 ```
 
+
 Training RMSE: 1.21
 
 Testing RMSE: 1.16
@@ -128,6 +149,7 @@ Testing RMSE: 1.16
 # Tree model tuning and fitting
 
 ### Specify model
+
 
 ```{r}
 tune_spec_dtree <- decision_tree(
@@ -139,7 +161,9 @@ tune_spec_dtree <- decision_tree(
 tune_spec_dtree
 ```
 
+
 ### Create workflow
+
 
 ```{r}
 dtree_wf <- workflow() %>%
@@ -147,7 +171,9 @@ dtree_wf <- workflow() %>%
   add_recipe(bt_rec_train)
 ```
 
+
 ### Create grid for model tuning
+
 
 ```{r}
 tree_grid_dtree <-
@@ -159,7 +185,9 @@ tree_grid_dtree <-
 tree_grid_dtree
 ```
 
+
 ### Use cross-validation for tuning
+
 
 ```{r, message=FALSE}
 dtree_resample <- dtree_wf %>% 
@@ -173,7 +201,9 @@ dtree_resample %>%
   collect_metrics()
 ```
 
+
 ### Model plotting
+
 
 ```{r}
 dtree_resample %>% collect_metrics() %>%
@@ -186,18 +216,22 @@ dtree_resample %>% collect_metrics() %>%
   scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
 ```
 
+
 ### Select the best model
 
 The [`show_best()`](https://tune.tidymodels.org/reference/show_best.html) function shows us the top 5 candidate models by default. We set n=1
+
 
 ```{r}
 dtree_resample %>%
   show_best(n=1)
 ```
 
+
 Tree model RMSE: 1.23
 
 Tree depth of 1 has the best performance metrics
+
 
 ```{r, message=FALSE, warning=FALSE}
 #Selects best performing model
@@ -207,9 +241,11 @@ best_tree <- dtree_resample %>%
 best_tree
 ```
 
+
 ### Create final fit based on best model 
 
 #### Update workflow
+
 
 ```{r}
 dtree_final_wf <- dtree_wf %>% 
@@ -218,16 +254,20 @@ dtree_final_wf <- dtree_wf %>%
 dtree_final_wf
 ```
 
+
 #### Fit model to training data
+
 
 ```{r}
 dtree_final_fit <- dtree_final_wf %>%
   fit(train) 
 ```
 
+
 ### Evaluate final fit
 
 #### Calculating residuals
+
 
 ```{r}
 dtree_residuals <- dtree_final_fit %>%
@@ -238,7 +278,9 @@ dtree_residuals <- dtree_final_fit %>%
 dtree_residuals
 ```
 
+
 #### Plot predictions vs. true value
+
 
 ```{r}
 dtree_pred_plot <- ggplot(dtree_residuals, 
@@ -251,7 +293,9 @@ dtree_pred_plot <- ggplot(dtree_residuals,
 dtree_pred_plot
 ```
 
+
 #### Plot residuals vs. predictions
+
 
 ```{r}
 dtree_residual_plot <- ggplot(dtree_residuals, 
@@ -264,18 +308,22 @@ dtree_residual_plot <- ggplot(dtree_residuals,
 plot(dtree_residual_plot) #view plot
 ```
 
+
 ## LASSO model tuning and fitting
 
 ### Specify Model
+
 
 ```{r}
 lasso_mod <- linear_reg(penalty = tune(), mixture = 1) %>% 
   set_engine("glmnet")
 ```
 
+
 Setting `mixture` to a value of one means that the glmnet model will potentially remove irrelevant predictors and choose a simpler model.
 
 ### Create Workflow
+
 
 ```{r}
 lasso_wf <- workflow() %>%
@@ -283,14 +331,18 @@ lasso_wf <- workflow() %>%
   add_recipe(bt_rec_train)
 ```
 
+
 ### Creating a Tuning Grid
+
 
 ```{r}
 lasso_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
 
 ```
 
+
 ### Use cross-validation for tuning
+
 
 ```{r}
 lasso_resample <- lasso_wf %>%
@@ -303,7 +355,9 @@ lasso_resample %>%
   collect_metrics()
 ```
 
+
 ### Model plotting
+
 
 ```{r}
 lr_plot <- lasso_resample %>% 
@@ -316,7 +370,9 @@ lr_plot <- lasso_resample %>%
 lr_plot
 ```
 
+
 ### Select the best model
+
 
 ```{r}
 #Show best model
@@ -327,9 +383,11 @@ best_lasso <- lasso_resample %>%
   select_best()
 ```
 
+
 Lasso model RMSE: 1.18 (slightly better than Tree)
 
 ### Create final fit based on best model
+
 
 ```{r}
 lasso_final_wf <- lasso_wf %>% 
@@ -339,9 +397,11 @@ lasso_final_fit <- lasso_final_wf %>%
   fit(train) #fit updated workflow to training data
 ```
 
+
 ### Evaluate final fit
 
 #### Calculating residuals
+
 
 ```{r}
 lasso_residuals <- lasso_final_fit %>%
@@ -352,7 +412,9 @@ lasso_residuals <- lasso_final_fit %>%
 lasso_residuals
 ```
 
+
 #### Plot predictions vs. true value
+
 
 ```{r}
 lasso_pred_plot <- ggplot(lasso_residuals, 
@@ -369,9 +431,11 @@ lasso_pred_plot
 
 ```
 
+
 RSQ is low but there is still a positive correlation there (which is good)
 
 #### Plot residuals vs. predictions
+
 
 ```{r}
 lasso_residual_plot <- ggplot(lasso_residuals, 
@@ -386,18 +450,22 @@ lasso_residual_plot <- ggplot(lasso_residuals,
 plot(lasso_residual_plot) #view plot
 ```
 
+
 There should be no relationship here, which there isn't.
 
 ## Random Forest model tuning and fitting
 
 ### Detect cores for RFM computation
 
+
 ```{r}
 cores <- parallel::detectCores()
 cores
 ```
 
+
 ### Specify Model
+
 
 ```{r}
 rf_mod <- rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>% 
@@ -405,14 +473,18 @@ rf_mod <- rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>%
   set_mode("regression")
 ```
 
+
 ### Create workflow
+
 
 ```{r}
 rf_wf <- workflow() %>% add_model(rf_mod) %>%
   add_recipe(bt_rec_train)
 ```
 
+
 ### Create grid for model tuning
+
 
 ```{r}
 rf_grid  <- expand.grid(mtry = c(3, 4, 5, 6),
@@ -420,7 +492,9 @@ rf_grid  <- expand.grid(mtry = c(3, 4, 5, 6),
                         trees = c(500,1000))
 ```
 
+
 ### Use cross-validation for tuning
+
 
 ```{r}
 rf_resample <- rf_wf %>% 
@@ -430,20 +504,26 @@ rf_resample <- rf_wf %>%
             metrics = metric_set(rmse))
 ```
 
+
 #### Check CV metrics
+
 
 ```{r}
 rf_resample %>%
   collect_metrics()
 ```
 
+
 ### Model performance plotting
+
 
 ```{r}
 rf_resample %>% autoplot()
 ```
 
+
 ### Select the best model
+
 
 ```{r}
 #Show best model
@@ -455,9 +535,11 @@ best_rf <- rf_resample %>%
   select_best(method = "rmse")
 ```
 
+
 Random forest model RMSE: 1.20
 
 ### Create final fit based on best model
+
 
 ```{r}
 rf_final_wf <- 
@@ -469,9 +551,11 @@ rf_final_fit <-
   fit(train) #fit best model to training data
 ```
 
+
 ### Evaluate final fit
 
 #### Calculating residuals
+
 
 ```{r}
 rf_residuals <- rf_final_fit %>%
@@ -482,7 +566,9 @@ rf_residuals <- rf_final_fit %>%
 rf_residuals
 ```
 
+
 #### Plot predictions vs. true value
+
 
 ```{r}
 rf_pred_plot <- ggplot(rf_residuals, 
@@ -497,9 +583,11 @@ rf_pred_plot <- ggplot(rf_residuals,
 rf_pred_plot
 ```
 
+
 There is a stronger correlation here than in the LASSO or Tree Model
 
 #### Plot residuals vs. predictions
+
 
 ```{r}
 rf_residual_plot <- ggplot(rf_residuals, 
@@ -513,6 +601,7 @@ rf_residual_plot <- ggplot(rf_residuals,
   stat_poly_eq()
 plot(rf_residual_plot) #view plot
 ```
+
 
 There is a slight correlation here, which is not ideal.
 
@@ -540,6 +629,7 @@ I have decided on the Random Forest model as the final model.
 
 Once you picked your final model, you are allowed to once -- **and only once** -- fit it to the test data and check how well it performs on that data. You can do that using the `last_fit()` function applied to the model you end up choosing. For the final model applied to the test set, report performance and the diagnostic plots as above.
 
+
 ```{r}
 rf_last_fit <- rf_final_wf %>% 
   last_fit(data_split)
@@ -547,8 +637,10 @@ rf_last_fit <- rf_final_wf %>%
 rf_last_fit %>% collect_metrics()
 ```
 
+
 **RMSE of 1.10 and standard error of 0.012.**
 
 **This performance is slightly better than the null model.** \
 
 \
+
