@@ -167,7 +167,7 @@ tree_grid_dtree
 
 ### Use cross-validation for tuning
 
-```{r}
+```{r, message=FALSE}
 dtree_resample <- dtree_wf %>% 
   tune_grid(
     resamples = fold_bt_train,
@@ -298,7 +298,7 @@ lasso_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
 
 ### Use cross-validation for tuning
 
-```{r}
+```{r, message=FALSE}
 lasso_resample <- lasso_wf %>%
   tune_grid(resamples = fold_bt_train,
             grid = lasso_grid,
@@ -428,7 +428,7 @@ rf_grid  <- expand.grid(mtry = c(3, 4, 5, 6),
 
 ### Use cross-validation for tuning
 
-```{r}
+```{r, message=FALSE}
 rf_resample <- rf_wf %>% 
   tune_grid(fold_bt_train,
             grid = 25,

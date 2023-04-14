@@ -164,6 +164,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../.././fluanalysis/code/fitting.html">
  <span class="dropdown-text">Model Fitting</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../.././fluanalysis/code/modeleval.html">
+ <span class="dropdown-text">Model Evaluation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././fluanalysis/code/machinelearning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -181,11 +189,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="../.././tidytuesday_exercise.html">
- <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
+ <span class="dropdown-text">Tidy Tuesday Exercise 1</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../.././data_analysis_exercise.html">
  <span class="dropdown-text">Data Analysis Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../.././tidytuesday_exercise2.html">
+ <span class="dropdown-text">Tidy Tuesday Exercise 2</span></a>
   </li>  
     </ul>
   </li>
@@ -216,7 +228,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#load-libraries" id="toc-load-libraries" class="nav-link" data-scroll-target="#load-libraries">Load libraries</a></li>
   <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
   <li><a href="#look-at-data" id="toc-look-at-data" class="nav-link" data-scroll-target="#look-at-data">Look at data</a></li>
-  <li><a href="#remove-unnecessary-variables" id="toc-remove-unnecessary-variables" class="nav-link" data-scroll-target="#remove-unnecessary-variables">Remove unnecessary variables</a></li>
+  <li><a href="#remove-unnecessary-variables" id="toc-remove-unnecessary-variables" class="nav-link" data-scroll-target="#remove-unnecessary-variables">Remove unnecessary variables</a>
+  <ul class="collapse">
+  <li><a href="#remove-near-zero-variables-with-less-than-50-entries-in-one-binary-category" id="toc-remove-near-zero-variables-with-less-than-50-entries-in-one-binary-category" class="nav-link" data-scroll-target="#remove-near-zero-variables-with-less-than-50-entries-in-one-binary-category">Remove “near-zero” variables with less than 50 entries in one binary category</a></li>
+  </ul></li>
   <li><a href="#remove-nas" id="toc-remove-nas" class="nav-link" data-scroll-target="#remove-nas">Remove NAs</a></li>
   <li><a href="#cleaning-is-complete-save-as-rds-file" id="toc-cleaning-is-complete-save-as-rds-file" class="nav-link" data-scroll-target="#cleaning-is-complete-save-as-rds-file">Cleaning is complete, save as RDS file</a></li>
   </ul></li>
@@ -1053,21 +1068,71 @@ $ TotalSymp3        &lt;dbl&gt; 8, 9, 16, 15, 11, 14, 10, 10, 12, 9, 13, 18, 12,
 <section id="remove-unnecessary-variables" class="level2">
 <h2 class="anchored" data-anchor-id="remove-unnecessary-variables">Remove unnecessary variables</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>symptoms <span class="ot">&lt;-</span> symptoms <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">9</span><span class="sc">:</span><span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>symptoms <span class="ot">&lt;-</span> symptoms <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">9</span><span class="sc">:</span><span class="dv">40</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">!</span><span class="fu">contains</span>(<span class="st">"YN"</span>, <span class="at">ignore.case =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Since all the variables of interest were all consecutive, I was able to easily select them based on their range of column number.</p>
+<p>I then selected for all variables that did not include “YN”, removing duplicate variables.</p>
+<section id="remove-near-zero-variables-with-less-than-50-entries-in-one-binary-category" class="level3">
+<h3 class="anchored" data-anchor-id="remove-near-zero-variables-with-less-than-50-entries-in-one-binary-category">Remove “near-zero” variables with less than 50 entries in one binary category</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(symptoms) <span class="co">#Vison and Hearing have the less than 50 yes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze   
+ No :421           No :326         No :131      No :170         No :340  
+ Yes:314           Yes:409         Yes:604      Yes:565         Yes:395  
+                                                                         
+                                                                         
+                                                                         
+                                                                         
+                                                                         
+ Fatigue   SubjectiveFever Headache      Weakness    CoughIntensity
+ No : 64   No :230         No :115   None    : 49   None    : 47   
+ Yes:671   Yes:505         Yes:620   Mild    :224   Mild    :156   
+                                     Moderate:341   Moderate:360   
+                                     Severe  :121   Severe  :172   
+                                                                   
+                                                                   
+                                                                   
+     Myalgia    RunnyNose AbPain    ChestPain Diarrhea  EyePn     Insomnia 
+ None    : 79   No :211   No :642   No :501   No :636   No :622   No :316  
+ Mild    :214   Yes:524   Yes: 93   Yes:234   Yes: 99   Yes:113   Yes:419  
+ Moderate:327                                                              
+ Severe  :115                                                              
+                                                                           
+                                                                           
+                                                                           
+ ItchyEye  Nausea    EarPn     Hearing   Pharyngitis Breathless ToothPn  
+ No :553   No :477   No :573   No :705   No :121     No :438    No :569  
+ Yes:182   Yes:258   Yes:162   Yes: 30   Yes:614     Yes:297    Yes:166  
+                                                                         
+                                                                         
+                                                                         
+                                                                         
+                                                                         
+ Vision    Vomit     Wheeze       BodyTemp     
+ No :716   No :656   No :514   Min.   : 97.20  
+ Yes: 19   Yes: 79   Yes:221   1st Qu.: 98.20  
+                               Median : 98.50  
+                               Mean   : 98.94  
+                               3rd Qu.: 99.30  
+                               Max.   :103.10  
+                               NA's   :5       </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>symptoms <span class="ot">&lt;-</span> symptoms <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(Vision, Hearing))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </section>
 <section id="remove-nas" class="level2">
 <h2 class="anchored" data-anchor-id="remove-nas">Remove NAs</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>symptoms <span class="ot">&lt;-</span> symptoms <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>symptoms <span class="ot">&lt;-</span> symptoms <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Only 5 observations were removed, so it looks like we took care of most of the NAs when we selected for the relevant variables.</p>
 </section>
 <section id="cleaning-is-complete-save-as-rds-file" class="level2">
 <h2 class="anchored" data-anchor-id="cleaning-is-complete-save-as-rds-file">Cleaning is complete, save as RDS file</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(symptoms, <span class="fu">here</span>(<span class="st">"fluanalysis/data/processed_data/symptoms_clean.RDS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(symptoms, <span class="fu">here</span>(<span class="st">"fluanalysis/data/processed_data/symptoms_clean.RDS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
