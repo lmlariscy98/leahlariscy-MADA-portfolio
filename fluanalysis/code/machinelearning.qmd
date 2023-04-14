@@ -9,7 +9,7 @@ format:
 
 ## Load packages
 
-```{r}
+```{r, message=FALSE}
 library(here)
 library(tidyverse)
 library(rsample) #Data split
@@ -39,6 +39,22 @@ data_split <- initial_split(
   
 train <- training(data_split)
 test  <- testing(data_split)
+```
+
+## Create recipes for later use
+
+```{r}
+#Training data
+bt_rec_train <- recipe(BodyTemp~., data = train) %>% 
+  step_dummy(all_nominal(), -all_outcomes()) %>% #pick nominal predictors
+  step_ordinalscore() %>%
+  step_zv(all_predictors()) 
+
+#Testing data
+bt_rec_test <- recipe(BodyTemp~., data = test) %>% 
+  step_dummy(all_nominal(), -all_outcomes()) %>% #pick nominal predictors
+  step_ordinalscore() %>%
+  step_zv(all_predictors()) 
 ```
 
 # Null Model
@@ -75,16 +91,6 @@ rec_test <-
 lm_mod <- linear_reg() %>% 
   set_engine("lm") %>% 
   set_mode("regression")
-```
-
-### Create recipes
-
-```{r}
-#Training data
-bt_rec_train <- recipe(BodyTemp ~ 1, data = train)
-
-#Testing data
-bt_rec_test <- recipe(BodyTemp ~ 1, data = test)
 ```
 
 ### Create workflows
@@ -161,7 +167,7 @@ tree_grid_dtree
 
 ### Use cross-validation for tuning
 
-```{r, message=FALSE}
+```{r}
 dtree_resample <- dtree_wf %>% 
   tune_grid(
     resamples = fold_bt_train,
@@ -207,7 +213,7 @@ best_tree <- dtree_resample %>%
 best_tree
 ```
 
-### Create final fit based on best model 
+### Create final fit based on best model
 
 #### Update workflow
 
@@ -549,6 +555,6 @@ rf_last_fit %>% collect_metrics()
 
 **RMSE of 1.10 and standard error of 0.012.**
 
-**This performance is slightly better than the null model.** \
+**This performance is slightly better than the null model.**\
 
 \

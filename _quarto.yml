@@ -26,10 +26,12 @@ website:
             href: ./coding_exercise.html
           - text: "Visualization Exercise"
             href: ./visualization_exercise.html
-          - text: "Tidy Tuesday Exercise"
+          - text: "Tidy Tuesday Exercise 1"
             href: ./tidytuesday_exercise.html
           - text: "Data Analysis Exercise"
             href: ./data_analysis_exercise.html
+          - text: "Tidy Tuesday Exercise 2"
+            href: ./tidytuesday_exercise2.html
     right:
       - icon: github 
         href: https://github.com/lmlariscy98/leahlariscy-MADA-portfolio

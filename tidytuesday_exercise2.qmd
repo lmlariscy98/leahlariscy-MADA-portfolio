@@ -1,0 +1,111 @@
+---
+title: "Tidy Tuesday Exercise"
+author: "Leah Lariscy"
+editor: visual
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+# Introduction
+
+In this exercise, I will analyze the Tidy Tuesday data from the week of April 11, 2023. The data comes from the Humane League's US Egg Production dataset, which is based on USDA reports of cage-free egg supply from 2007 to 2021.
+
+# Load packages
+
+```{r}
+library(here)
+library(skimr)
+library(tidyverse)
+library(rsample) #Data split
+library(tidymodels)
+library(rpart) #Model fit
+library(ranger) #Model fit
+library(glmnet) #Model fit
+library(rpart.plot)  #viz of decision tree
+library(vip) #viz of variable importance plots
+library(ggpmisc) #for adding linear regression to plots
+```
+
+# Load the data
+
+```{r}
+# Get the Data
+
+# Read in with tidytuesdayR package 
+# Install from CRAN via: 
+#install.packages("tidytuesdayR")
+# This loads the readme and all the datasets for the week of interest
+
+# Either ISO-8601 date or year/week works!
+
+tuesdata <- tidytuesdayR::tt_load('2023-04-11')
+
+eggproduction <- tuesdata$`egg-production`
+cagefreepercentages <- tuesdata$`cage-free-percentages`
+```
+
+# Data exploration
+
+```{r}
+#Look at the data using skim
+skim(eggproduction)
+skim(cagefreepercentages)
+```
+
+```{r}
+#Visualize the data to get a better idea of what we are working with
+#Plot number of eggs over time
+eggproduction %>% ggplot(aes(observed_month, log10(n_eggs))) +
+  geom_point() 
+
+```
+
+We clearly need to remove some variables in order to correctly visualize this time series.
+
+# Data cleaning
+
+## Remove unnecessary variables and observations
+
+```{r}
+#For egg production data, keep all variables but source
+#Then remove observations that do not contain "all" in production process
+#Then remove observations that do not contain "table egg" in production type
+eggprod_clean <- eggproduction %>% 
+  select(!source) %>% 
+  filter(prod_process == "all", prod_type == "table eggs")
+
+#For cage free percentage data, keep all variables but source
+#Since there are so many NAs in the percent eggs variable, I will also remove that variable since it is not going to be useful in analysis
+#Then remove data prior to 2016 since that is as far back as egg production data goes
+cagefree_clean <- cagefreepercentages %>% 
+  select(!c(source, percent_eggs)) %>% 
+  filter(observed_month >= "2016-04-30")
+```
+
+## Look at the data again
+
+```{r}
+eggprod_clean %>% ggplot(aes(observed_month, log10(n_eggs))) +
+  geom_point() +
+  geom_line()
+```
+
+Now that we have cleaned the data by:
+
+-   Removing unnecessary variables
+
+-   Subsetting the production product to "all"
+
+-   Subsetting the production type to "table eggs"
+
+We can see a distinct upward trend in the production of table eggs since 2017. We can also see that there are certain months that the egg production drops, like in the early months of each year. Egg production rates also dropped significantly at the start of the COVID-19 pandemic (summer 2020).
+
+```{r}
+cagefree_clean %>% ggplot(aes(observed_month, percent_hens)) +
+  geom_point() +
+  geom_line()
+```
+
+There is a distinct upward trend in the percentage of cage free hens, rising from 10% to 30% from 2017 to 2021
